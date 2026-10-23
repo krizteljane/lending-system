@@ -33,6 +33,11 @@
         color: #9aa8a0;
     }
 
+    #loanForm [aria-invalid="true"] {
+        border-color: #dc2626 !important;
+        background-color: #fef2f2 !important;
+    }
+
     #loanForm input[type="date"]:invalid {
         color: #9aa8a0;
     }
@@ -75,10 +80,6 @@
     <div class="mb-6"><h1 class="text-2xl font-semibold">{{ $savedDraftId ? 'Continue loan draft' : 'New loan' }}</h1><p class="mt-1 text-sm text-[#5b7567]">Fields can be left blank while you prepare the application. Required information is checked when you generate the disclosure; incomplete applications can be saved as drafts.</p></div>
     @if (session('success'))<div class="mb-5 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">{{ session('success') }}</div>@endif
     @if (session('error'))<div class="mb-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">{{ session('error') }}</div>@endif
-    @if ($errors->any())
-        <div class="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"><p class="font-semibold">Please check these fields:</p><ul class="mt-2 list-inside list-disc">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
-    @endif
-
     <form method="POST" action="{{ route('loans.store') }}" enctype="multipart/form-data" class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(440px,1fr)]" id="loanForm">
         @csrf
         @if ($savedDraftId)<input type="hidden" name="saved_draft_id" value="{{ $savedDraftId }}">@endif
@@ -223,6 +224,10 @@
     const validationErrors = @json($errors->keys());
     activateLoanTab('borrower');
     if (validationErrors.length) {
+        validationErrors.forEach(name => {
+            const field = Array.from($('loanForm').elements).find(element => element.name === name);
+            if (field) field.setAttribute('aria-invalid', 'true');
+        });
         const firstError = validationErrors[0];
         const errorTab = firstError.startsWith('second_co_borrower_') ? 'second_co_borrower'
             : firstError.startsWith('co_borrower_') ? 'co_borrower'

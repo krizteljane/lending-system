@@ -4,10 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ __('Welcome') }} - SALUAG</title>
+        <title>SALUAG - Loan</title>
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/jpeg">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         @fonts
@@ -43,11 +42,11 @@
 
                 {{-- Top logo --}}
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-14 w-14 rounded-full bg-white object-contain p-1">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-16 w-16 rounded-full bg-white object-contain p-0">
                     <div class="leading-tight">
-                        <div class="text-2xl font-semibold"> SALUAG</div>
-                        <div class="text-sm text-white/70">San Luis Agri-Ventures Agriculture Cooperative</div>
-                        <div class="text-sm text-white/75">Lending Management System</div>
+                        <div class="text-2xl font-semibold leading-none">SALUAG</div>
+                        <div class="text-sm text-white/70">San Luis Agri-Ventures Cooperative</div>
+                        <div class="text-sm leading-tight text-white/75">Lending Management System</div>
                     </div>
                 </div>
 
@@ -110,11 +109,12 @@
                 <div class="relative w-full max-w-[502px] rounded-xl border border-[#e3ebe5] bg-white/80 p-7 shadow-[0_1px_2px_rgba(15,61,43,.06),0_12px_40px_rgba(15,61,43,.06)] sm:p-9">
 
                     {{-- Card logo --}}
-                    <div class="mb-6 flex items-center gap-3">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-14 w-14 rounded-full bg-white object-contain p-1">
+                    <div class="mb-5 flex items-center gap-3">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-16 w-16 rounded-full bg-white object-contain p-0">
                         <div class="leading-tight">
-                            <div class="text-3xl font-semibold text-[#0f4a33]">SALUAG</div>
-                            <div class="mt-1 text-[#4a6b5a]">Admin Portal</div>
+                            <div class="text-3xl font-semibold leading-none text-[#0f4a33]">SALUAG</div>
+                            <div class="text-xs leading-tight text-[#4a6b5a]">San Luis Agri-Ventures Cooperative</div>
+                            <div class="text-sm leading-tight text-[#4a6b5a]">Admin Portal</div>
                         </div>
                     </div>
 
@@ -123,7 +123,7 @@
                         Sign in to access your dashboard and manage loan records.
                     </p>
 
-                    <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
+                    <form method="POST" action="{{ route('login') }}" autocomplete="on" class="mt-6 space-y-4">
                         @csrf
 
                         {{-- Email --}}
@@ -158,12 +158,8 @@
                             @enderror
                         </div>
 
-                        {{-- Remember / forgot --}}
-                        <div class="flex items-center justify-between text-sm">
-                            <label class="flex cursor-pointer items-center gap-2">
-                                <input type="checkbox" name="remember" class="h-4 w-4 rounded border-[#9db0a5] text-[#1d7a4f] focus:ring-[#1d7a4f]">
-                                Remember me
-                            </label>
+                        {{-- Forgot password --}}
+                        <div class="flex justify-end text-sm">
                             @if (Route::has('password.request'))
                                 <a href="{{ route('password.request') }}" class="text-[13px] text-[#1d7a4f] hover:underline">Forgot password?</a>
                             @else
@@ -199,7 +195,24 @@
                 const input = document.getElementById('password');
                 const btn = document.getElementById('togglePassword');
                 const slash = document.getElementById('eyeSlash');
+                const email = document.getElementById('email');
+                const loginForm = email.closest('form');
                 let visible = false;
+
+                try {
+                    const savedEmail = localStorage.getItem('saluag.remembered-email');
+                    if (savedEmail && !email.value) email.value = savedEmail;
+                } catch (_) {}
+
+                loginForm.addEventListener('submit', function () {
+                    try {
+                        if (email.value) {
+                            localStorage.setItem('saluag.remembered-email', email.value);
+                        } else {
+                            localStorage.removeItem('saluag.remembered-email');
+                        }
+                    } catch (_) {}
+                });
 
                 function render() {
                     input.type = visible ? 'text' : 'password';
