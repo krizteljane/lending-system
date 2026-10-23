@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') - SALUAG</title>
-    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/jpeg">
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -107,6 +107,26 @@
             @yield('content')
         </main>
     </div>
+
+    @if (session('welcome_modal'))
+        <dialog id="loginWelcomeDialog" class="fixed left-1/2 top-1/2 m-0 w-[min(92vw,28rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#d4ddd6] p-0 shadow-[0_24px_70px_rgba(15,61,43,0.3)] backdrop:bg-black/40">
+            <div class="flex items-start justify-between border-b border-[#eef3ef] px-5 py-4">
+                <div><p class="text-xs font-medium uppercase tracking-wide text-[#17744a]">SALUAG · Loan Management</p><h2 class="mt-1 text-xl font-semibold text-[#0f3d2b]">Welcome, {{ auth()->user()->name }}!</h2></div>
+                <button type="button" id="loginWelcomeClose" aria-label="Close welcome message" class="rounded-md px-2 py-1 text-xl leading-none text-[#5b7567] hover:bg-[#f3f7f4]">&times;</button>
+            </div>
+            <div class="px-5 py-5">
+                <p class="text-sm leading-6 text-[#5b7567]">Welcome to San Luis Agri-Ventures Cooperative. You are signed in and ready to manage borrower records, loans, and payments.</p>
+            </div>
+        </dialog>
+        <script>
+            (() => {
+                const dialog = document.getElementById('loginWelcomeDialog');
+                dialog.showModal();
+                document.getElementById('loginWelcomeClose').addEventListener('click', () => dialog.close());
+                dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+            })();
+        </script>
+    @endif
 
     <script>
         const sidebar = document.getElementById('sidebar');
