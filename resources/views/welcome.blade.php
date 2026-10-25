@@ -26,6 +26,39 @@
                 background-size: cover;
                 background-position: center;
             }
+
+            @media (max-width: 1023px) {
+                #brandPanel { box-sizing: border-box; width: 100%; min-width: 0; }
+                #brandPanel .brand-header,
+                #brandPanel .brand-hero,
+                #brandPanel .brand-footer { min-width: 0; }
+                #brandPanel .brand-hero > p,
+                #brandPanel .brand-hero h1,
+                #brandPanel .brand-hero > div { overflow-wrap: break-word; }
+            }
+
+            @media (max-width: 1023px) and (max-height: 700px) {
+                #brandPanel { justify-content: space-between; gap: .25rem; padding-block: .75rem; }
+                #brandPanel .brand-header img { width: 2.5rem; height: 2.5rem; }
+                #brandPanel .brand-header .brand-name { font-size: 1.125rem; }
+                #brandPanel .brand-header .brand-description { font-size: .65rem; }
+                #brandPanel .brand-hero { gap: .375rem; }
+                #brandPanel .brand-hero .brand-eyebrow { font-size: .55rem; letter-spacing: .08em; }
+                #brandPanel .brand-hero h1 { font-size: 1.25rem; line-height: 1.05; }
+                #brandPanel .brand-hero .brand-copy { font-size: .7rem; line-height: 1rem; }
+                #brandPanel .brand-hero .brand-motto { padding: .35rem .6rem; }
+                #brandPanel .brand-hero .brand-motto p { font-size: .58rem; line-height: .85rem; }
+                #brandPanel .brand-hero .brand-features { gap: .375rem; font-size: .58rem; }
+                #brandPanel .brand-hero .brand-features li { gap: .25rem; }
+                #brandPanel .brand-hero .brand-features li > span:first-child { width: 1.75rem; height: 1.75rem; }
+                #brandPanel .brand-hero .brand-features svg { width: .875rem; height: .875rem; }
+                #brandPanel .brand-footer > div { font-size: .62rem; line-height: .9rem; }
+                #brandPanel #showSignIn { min-height: 2.5rem; }
+            }
+
+            @media (max-width: 1023px) and (max-height: 480px) {
+                #brandPanel { height: auto; min-height: 100dvh; overflow-y: auto; justify-content: flex-start; gap: .75rem; }
+            }
         </style>
     </head>
 
@@ -41,33 +74,33 @@
             <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-evenly gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:justify-between lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
-                <div class="flex items-center gap-3">
+                <div class="brand-header flex items-center gap-3">
                     <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-12 w-12 shrink-0 rounded-full bg-white object-contain p-0 sm:h-16 sm:w-16">
                     <div class="leading-tight">
-                        <div class="text-xl font-semibold leading-none sm:text-2xl">SALUAG</div>
-                        <div class="text-xs text-white/70 sm:text-sm">San Luis Agri-Ventures Cooperative</div>
-                        <div class="text-xs leading-tight text-white/75 sm:text-sm">Lending Management System</div>
+                        <div class="brand-name text-xl font-semibold leading-none sm:text-2xl">SALUAG</div>
+                        <div class="brand-description text-xs text-white/70 sm:text-sm">San Luis Agri-Ventures Cooperative</div>
+                        <div class="brand-description text-xs leading-tight text-white/75 sm:text-sm">Lending Management System</div>
                     </div>
                 </div>
 
                 {{-- Hero copy --}}
-                <div class="flex flex-col gap-2 sm:gap-4 lg:gap-5">
-                    <p class="text-[10px] font-medium tracking-[.14em] text-[#8fe3b0] sm:text-sm sm:tracking-[.3em]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
+                <div class="brand-hero flex flex-col gap-2 sm:gap-4 lg:gap-5">
+                    <p class="brand-eyebrow text-[10px] font-medium tracking-[.14em] text-[#8fe3b0] sm:text-sm sm:tracking-[.3em]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
                     <h1 class="text-2xl font-semibold leading-[1.08] sm:text-4xl xl:text-[3.1rem]">
                         Manage Loans.<br>
                         <span class="text-[#8fe3b0]">Build a Brighter Future.</span>
                     </h1>
-                    <p class="max-w-sm text-xs leading-4 text-white/90 sm:text-base sm:leading-relaxed">
+                    <p class="brand-copy max-w-sm text-xs leading-4 text-white/90 sm:text-base sm:leading-relaxed">
                         Supporting organized loan management for a cooperative working toward the progress of its members and agricultural community.
                     </p>
 
-                    <div class="max-w-sm rounded-2xl border border-white/20 bg-white/10 px-3 py-2 shadow-lg shadow-black/10 backdrop-blur-sm sm:px-5 sm:py-3">
+                    <div class="brand-motto max-w-sm rounded-2xl border border-white/20 bg-white/10 px-3 py-2 shadow-lg shadow-black/10 backdrop-blur-sm sm:px-5 sm:py-3">
                         <p class="text-[10px] font-semibold tracking-[.04em] text-[#a8edc1] sm:text-sm sm:tracking-[.08em]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
                         <p class="mt-0.5 text-[10px] text-white/85 sm:mt-1 sm:text-sm">United Members Toward Progress.</p>
                     </div>
 
                     {{-- Feature highlights --}}
-                    <ul class="grid grid-cols-3 gap-2 text-[10px] leading-tight sm:flex sm:items-start sm:gap-6 sm:text-sm">
+                    <ul class="brand-features grid grid-cols-3 gap-2 text-[10px] leading-tight sm:flex sm:items-start sm:gap-6 sm:text-sm">
                         <li class="flex min-w-0 flex-col gap-1.5 sm:gap-3 sm:pr-6">
                             <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 sm:h-11 sm:w-11">
                                 <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>
@@ -90,7 +123,7 @@
                 </div>
 
                 {{-- Mobile footer: keep the tagline and sign-in action together. --}}
-                <div class="flex flex-col gap-2 sm:gap-3 lg:contents">
+                <div class="brand-footer flex flex-col gap-2 sm:gap-3 lg:contents">
                     <div class="border-l-[3px] border-[#6fcf97] pl-3 text-[10px] leading-4 text-white/90 sm:pl-4 sm:text-sm sm:leading-6">
                         Better records today.<br>
                         Stronger communities tomorrow.
