@@ -31,7 +31,7 @@
         <a href="{{ route('loans.promissory-note', $loan) }}" aria-current="page" class="border-b-2 border-[#111827] px-1 py-3 text-sm font-medium text-slate-700">Promissory Note</a>
     </nav>
 
-    <article class="note-sheet rounded-xl border border-[#d4ddd6] bg-white p-7 text-sm leading-relaxed text-gray-900 shadow-sm sm:p-10">
+    <article class="note-sheet rounded-xl border border-[#d4ddd6] bg-white p-4 text-sm leading-relaxed text-gray-900 shadow-sm sm:p-10">
         <header class="border-b border-gray-400 pb-4 text-center">
             <div class="note-masthead justify-center"><img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo"><div class="text-left"><p class="font-bold tracking-wide text-[#0f5b40]">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Cooperative</h2><p class="text-xs text-gray-600">Purok 1, Banoyo, San Luis, Batangas</p></div></div>
             <h2 class="mt-5 text-xl font-bold tracking-wide">PROMISSORY NOTE</h2>

@@ -19,6 +19,12 @@
     .disclosure-summary-label { color: #63786c; font-size: 9px; text-transform: uppercase; }
     .disclosure-summary-value { color: #0f4a33; font-size: 13px; font-weight: 700; }
     .disclosure-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; margin: 12px 0; }
+    @media screen and (max-width: 640px) {
+        .disclosure-party-grid,
+        .disclosure-detail-grid { grid-template-columns: minmax(0, 1fr); }
+        .disclosure-summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .signature-block { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    }
     @media print {
         html, body { background: #fff !important; }
         body { color: #111 !important; font-size: 9pt !important; }
@@ -144,7 +150,7 @@
                 </div>
             @endif
             <p class="late-charge-note mt-3 text-xs text-gray-600">A late charge applies to each unpaid installment after it is 5 days overdue. The charge is 1.25% of original principal for the first late month and each additional 30-day period it remains unpaid.</p>
-            <div class="signature-block mt-12 grid grid-cols-2 gap-x-10 gap-y-8">
+            <div class="signature-block mt-12 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
                 <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">San Luis Agri-Ventures Cooperative</p><p class="text-xs italic">Released by</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->borrower->full_name }}</p><p class="text-xs italic">Borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 @if ($loan->co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->co_borrower_name }}</p><p class="text-xs italic">Co-borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>@endif

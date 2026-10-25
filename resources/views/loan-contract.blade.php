@@ -18,6 +18,10 @@
     .agreement-summary-label { color: #63786c; font-size: 9px; text-transform: uppercase; }
     .agreement-summary-value { color: #0f4a33; font-size: 13px; font-weight: 700; }
     .agreement-section-title { border-left: 3px solid #6fcf97; padding-left: 8px; color: #0f4a33; }
+    @media screen and (max-width: 640px) {
+        .agreement-parties { grid-template-columns: minmax(0, 1fr); }
+        .agreement-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     @media print {
         html, body { background: #fff !important; }
         #sidebar, #backdrop, header.sticky, #adminContextMenu, .agreement-actions { display: none !important; }
@@ -49,12 +53,12 @@
 </style>
 
 <div class="mx-auto max-w-4xl">
-    <div class="agreement-actions mb-5 flex items-center justify-between gap-3">
+    <div class="agreement-actions mb-5 flex flex-wrap items-center justify-between gap-3">
         <div><a href="{{ route('contracts.index', ['document' => 'contract']) }}" class="mb-1 inline-flex items-center gap-1 text-sm font-medium text-[#17744a] hover:underline"><span aria-hidden="true">←</span> Back to contracts</a><h1 class="text-2xl font-semibold">Loan agreement</h1><p class="mt-1 text-sm text-[#5b7567]">Agreement for {{ $loan->borrower->full_name }} · {{ $loan->reference }}</p></div>
-        <button type="button" class="password-confirm-trigger rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]" data-confirm-action="print">Print agreement</button>
+        <button type="button" class="password-confirm-trigger shrink-0 rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]" data-confirm-action="print">Print agreement</button>
     </div>
 
-    <article class="agreement-sheet rounded-xl border border-[#d4ddd6] bg-white p-8 text-sm leading-relaxed text-gray-900 shadow-sm">
+    <article class="agreement-sheet rounded-xl border border-[#d4ddd6] bg-white p-4 text-sm leading-relaxed text-gray-900 shadow-sm sm:p-8">
         <header class="border-b border-gray-300 pb-4">
             <div class="agreement-masthead">
                 <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo">
@@ -138,12 +142,12 @@
         </ul>
 
         <p class="mt-5">By signing below, the parties confirm that they have reviewed and agree to the loan amount, monthly interest percentage and method, repayment dates, charges, penalties, and any additional terms written in this agreement.</p>
-        <div class="agreement-signatures mt-12 grid gap-12 sm:grid-cols-2">
+        <div class="agreement-signatures mt-12 grid gap-8 sm:grid-cols-2 sm:gap-12">
             <div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">{{ $loan->borrower->full_name }}</p><p class="text-xs">Borrower signature over printed name</p><p class="mt-4 text-left text-xs">Date: ____________________</p></div>
             <div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">San Luis Agri-Ventures Cooperative</p><p class="text-xs">Authorized representative signature</p><p class="mt-3 text-left text-xs">Name: ____________________</p><p class="mt-2 text-left text-xs">Date: ____________________</p></div>
         </div>
         @if ($loan->co_borrower_name || $loan->second_co_borrower_name)
-            <div class="agreement-signatures mt-8 grid gap-12 sm:grid-cols-2">
+            <div class="agreement-signatures mt-8 grid gap-8 sm:grid-cols-2 sm:gap-12">
                 @if ($loan->co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">{{ $loan->co_borrower_name }}</p><p class="text-xs">Co-borrower signature over printed name</p><p class="mt-4 text-left text-xs">Date: ____________________</p></div>@endif
                 @if ($loan->second_co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">{{ $loan->second_co_borrower_name }}</p><p class="text-xs">Second co-borrower signature over printed name</p><p class="mt-4 text-left text-xs">Date: ____________________</p></div>@endif
             </div>

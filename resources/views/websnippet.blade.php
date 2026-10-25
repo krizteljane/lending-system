@@ -24,7 +24,7 @@
 <body class="min-h-screen bg-[#f6f9f6] text-[#0f3d2b] antialiased">
 
     {{-- Sidebar --}}
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-60 -translate-x-full flex-col bg-[#0f4a33] text-white transition-transform lg:translate-x-0">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-60 -translate-x-full flex-col overflow-y-auto overscroll-contain bg-[#0f4a33] text-white transition-transform lg:translate-x-0">
         <div class="flex items-center justify-between gap-2 px-5 py-6">
             <a href="{{ route('dashboard') }}" class="flex min-w-0 items-center gap-3">
                 <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo" class="h-10 w-10 shrink-0 rounded-full bg-white object-contain p-0.5">

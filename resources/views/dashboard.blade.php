@@ -38,7 +38,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="mt-3 flex items-center justify-between text-xs text-[#7a9186]"><span>Columns show principal; labels show ₱ thousands</span><span>Number of loans appears on hover</span></div>
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-[#7a9186]"><span>Columns show principal; labels show ₱ thousands</span><span>Number of loans appears on hover</span></div>
         </section>
 
         <section class="rounded-xl border border-[#e3ebe5] bg-white p-6">
@@ -50,7 +50,7 @@
                 <div class="space-y-4">
                     @foreach ($purposeAnalytics as $purpose)
                         <div>
-                            <div class="mb-1 flex justify-between gap-3 text-sm"><span>{{ $purpose['purpose'] }}</span><span class="shrink-0 font-medium">₱{{ number_format($purpose['principal'], 2) }} <span class="text-xs font-normal text-[#7a9186]">· {{ $purpose['count'] }} loan(s)</span></span></div>
+                            <div class="mb-1 flex flex-wrap items-start justify-between gap-x-3 gap-y-1 text-sm"><span class="min-w-0">{{ $purpose['purpose'] }}</span><span class="shrink-0 font-medium">₱{{ number_format($purpose['principal'], 2) }} <span class="text-xs font-normal text-[#7a9186]">· {{ $purpose['count'] }} loan(s)</span></span></div>
                             <div class="h-2 overflow-hidden rounded-full bg-[#edf3ef]"><div class="h-full rounded-full bg-[#6fcf97]" style="width: {{ max(3, $purpose['principal'] / $maxPurposePrincipal * 100) }}%"></div></div>
                         </div>
                     @endforeach
