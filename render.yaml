@@ -10,6 +10,8 @@ services:
         value: SALUAG Loan
       - key: APP_ENV
         value: production
+      - key: APP_URL
+        value: https://saluag-loan.onrender.com
       - key: APP_DEBUG
         value: "false"
       - key: LOG_CHANNEL
