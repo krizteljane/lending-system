@@ -94,10 +94,15 @@
                     Better records today.<br>
                     Stronger communities tomorrow.
                 </div>
+
+                <a href="#sign-in" class="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-[#0f4a33] shadow-lg transition hover:bg-[#eaf5ee] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f4a33] lg:hidden">
+                    Sign in
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
             </section>
 
             {{-- ============ RIGHT: LOGIN ============ --}}
-            <main class="relative flex min-h-dvh items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 lg:min-h-0 lg:overflow-hidden">
+            <main id="sign-in" class="relative flex min-h-dvh scroll-mt-4 items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 lg:min-h-0 lg:overflow-hidden">
 
                 {{-- Decorative leaves --}}
                 <svg class="pointer-events-none absolute -bottom-16 -right-10 hidden h-[420px] w-[360px] text-[#dcebe2] lg:block" viewBox="0 0 360 420" fill="currentColor" aria-hidden="true">
