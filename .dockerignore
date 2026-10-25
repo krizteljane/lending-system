@@ -14,6 +14,7 @@ database/*.sqlite
 database/*.sqlite-*
 node_modules
 vendor
+/public/hot
 storage/app/private/*
 storage/logs/*.log
 storage/framework/cache/data/*
