@@ -38,7 +38,7 @@
         <div class="grid h-dvh lg:grid-cols-2">
 
             {{-- ============ LEFT: BRAND PANEL ============ --}}
-            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-start gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:justify-between lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
+            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-between gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
                 <div class="flex items-center gap-3">
@@ -89,16 +89,18 @@
                     </ul>
                 </div>
 
-                {{-- Tagline --}}
-                <div class="mt-1 border-l-[3px] border-[#6fcf97] pl-3 text-[10px] leading-4 text-white/90 sm:mt-0 sm:pl-4 sm:text-sm sm:leading-6">
-                    Better records today.<br>
-                    Stronger communities tomorrow.
-                </div>
+                {{-- Mobile footer: keep the tagline and sign-in action together. --}}
+                <div class="flex flex-col gap-2 sm:gap-3 lg:contents">
+                    <div class="border-l-[3px] border-[#6fcf97] pl-3 text-[10px] leading-4 text-white/90 sm:pl-4 sm:text-sm sm:leading-6">
+                        Better records today.<br>
+                        Stronger communities tomorrow.
+                    </div>
 
-                <button id="showSignIn" type="button" class="mt-1 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-[#0f4a33] shadow-lg transition hover:bg-[#eaf5ee] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f4a33] lg:hidden">
-                    Sign in
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </button>
+                    <button id="showSignIn" type="button" class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-[#0f4a33] shadow-lg transition hover:bg-[#eaf5ee] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f4a33] lg:hidden">
+                        Sign in
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                </div>
             </section>
 
             {{-- ============ RIGHT: LOGIN ============ --}}
