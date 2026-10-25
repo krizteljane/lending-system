@@ -4,7 +4,7 @@
 @section('content')
     <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><h1 class="text-2xl font-semibold">Payments</h1><p class="mt-1 text-sm text-[#5b7567]">Record repayments and review the remaining schedule.</p></div>
         @if ($loans->isNotEmpty())
-            <form method="GET" action="{{ route('payments.index') }}" class="flex items-end gap-2"><div><label for="loan_id" class="mb-1 block text-xs font-medium text-[#5b7567]">Select loaner</label><select id="loan_id" name="loan_id" required class="h-10 min-w-56 rounded-md border border-[#dbe5de] bg-white px-3 text-sm"><option value="" @selected(!$loan)>Choose a loaner</option>@foreach ($loans as $option)<option value="{{ $option->id }}" @selected($loan?->id === $option->id)>{{ $option->borrower->full_name }} · {{ $option->reference }}</option>@endforeach</select></div><button class="h-10 rounded-md bg-[#17744a] px-4 text-sm font-medium text-white">View</button></form>
+            <form method="GET" action="{{ route('payments.index') }}" class="flex w-full items-end gap-2 sm:w-auto"><div class="min-w-0 flex-1 sm:flex-none"><label for="loan_id" class="mb-1 block text-xs font-medium text-[#5b7567]">Select loaner</label><select id="loan_id" name="loan_id" required class="h-10 w-full min-w-0 rounded-md border border-[#dbe5de] bg-white px-3 text-sm sm:w-auto sm:min-w-56"><option value="" @selected(!$loan)>Choose a loaner</option>@foreach ($loans as $option)<option value="{{ $option->id }}" @selected($loan?->id === $option->id)>{{ $option->borrower->full_name }} · {{ $option->reference }}</option>@endforeach</select></div><button class="h-10 shrink-0 rounded-md bg-[#17744a] px-4 text-sm font-medium text-white">View</button></form>
         @endif
     </div>
     @if (!$loan)

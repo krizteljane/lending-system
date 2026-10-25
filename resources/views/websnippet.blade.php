@@ -25,10 +25,15 @@
 
     {{-- Sidebar --}}
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-60 -translate-x-full flex-col bg-[#0f4a33] text-white transition-transform lg:translate-x-0">
-        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-5 py-6">
-            <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo" class="h-10 w-10 rounded-full bg-white object-contain p-0.5">
-            <span class="text-sm font-semibold leading-tight">San Luis Agri-Ventures Cooperative</span>
-        </a>
+        <div class="flex items-center justify-between gap-2 px-5 py-6">
+            <a href="{{ route('dashboard') }}" class="flex min-w-0 items-center gap-3">
+                <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo" class="h-10 w-10 shrink-0 rounded-full bg-white object-contain p-0.5">
+                <span class="text-sm font-semibold leading-tight">San Luis Agri-Ventures Cooperative</span>
+            </a>
+            <button id="closeMenuBtn" type="button" class="rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white lg:hidden" aria-label="Close menu">
+                <span aria-hidden="true" class="text-2xl leading-none">&times;</span>
+            </button>
+        </div>
 
         <nav class="flex-1 space-y-1 px-3" aria-label="Main">
             @foreach ($nav as [$label, $route, $icon, $pattern])
@@ -63,12 +68,12 @@
 
     <div class="lg:pl-60">
         {{-- Top bar --}}
-        <header class="sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-[#e3ebe5] bg-white/90 px-4 backdrop-blur sm:px-8">
-            <button id="menuBtn" class="rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0] lg:hidden" aria-label="Open menu">
+        <header class="sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-[#e3ebe5] bg-white/90 px-3 backdrop-blur sm:gap-4 sm:px-8">
+            <button id="menuBtn" type="button" class="rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0] lg:hidden" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
                 <x-icon name="menu" />
             </button>
 
-            <form id="globalSearchForm" method="GET" action="{{ route('search.index') }}" class="relative max-w-lg flex-1">
+            <form id="globalSearchForm" method="GET" action="{{ route('search.index') }}" class="relative min-w-0 max-w-lg flex-1">
                 <x-icon name="search" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7a9186]" />
                 <label for="globalSearch" class="sr-only">Search borrowers, loans, or names</label>
                 <input id="globalSearch" name="q" type="search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="globalSearchSuggestions" value="{{ request()->routeIs('search.index') ? request('q') : '' }}" placeholder="Search borrowers, loan ID, or name..."
@@ -76,8 +81,8 @@
                 <div id="globalSearchSuggestions" role="listbox" class="absolute left-0 right-0 top-full z-50 mt-1 hidden max-h-80 overflow-y-auto rounded-lg border border-[#d4ddd6] bg-white py-1 shadow-xl"></div>
             </form>
 
-            <div class="ml-auto flex items-center gap-2">
-                <button class="relative rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0]" aria-label="Notifications">
+            <div class="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+                <button class="relative hidden rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0] sm:inline-flex" aria-label="Notifications">
                     <x-icon name="bell" />
                 </button>
                 <a id="topAdmin" href="{{ route('profile') }}" class="flex max-w-56 items-center gap-2 rounded-md p-1.5 hover:bg-[#eef5f0]" title="Right-click for logout">
@@ -94,7 +99,7 @@
             <button type="button" data-confirm-action="logout" class="password-confirm-trigger w-full rounded px-3 py-2 text-left text-sm text-red-700 hover:bg-red-50">Log out</button>
         </div>
 
-        <main class="px-4 py-8 sm:px-8">
+        <main class="min-w-0 px-3 py-5 sm:px-8 sm:py-8">
             @yield('content')
         </main>
     </div>
@@ -196,12 +201,18 @@
     <script>
         const sidebar = document.getElementById('sidebar');
         const backdrop = document.getElementById('backdrop');
+        const menuButton = document.getElementById('menuBtn');
         function toggleMenu(open) {
             sidebar.classList.toggle('-translate-x-full', !open);
             backdrop.classList.toggle('hidden', !open);
+            menuButton.setAttribute('aria-expanded', String(open));
         }
-        document.getElementById('menuBtn').addEventListener('click', () => toggleMenu(true));
+        menuButton.addEventListener('click', () => toggleMenu(true));
+        document.getElementById('closeMenuBtn').addEventListener('click', () => toggleMenu(false));
         backdrop.addEventListener('click', () => toggleMenu(false));
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') toggleMenu(false);
+        });
 
         const globalSearchForm = document.getElementById('globalSearchForm');
         const globalSearch = document.getElementById('globalSearch');

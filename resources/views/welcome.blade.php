@@ -34,11 +34,11 @@
         $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
     @endphp
 
-    <body class="h-dvh overflow-hidden bg-[#f6f9f6] text-[#0f3d2b] antialiased">
-        <div class="grid h-full lg:grid-cols-2">
+    <body class="min-h-dvh overflow-x-hidden bg-[#f6f9f6] text-[#0f3d2b] antialiased lg:h-dvh lg:overflow-hidden">
+        <div class="grid min-h-dvh lg:h-full lg:grid-cols-2">
 
             {{-- ============ LEFT: BRAND PANEL ============ --}}
-            <section class="brand-panel relative hidden flex-col justify-between overflow-hidden px-[10%] py-8 text-white lg:flex xl:px-[12%]">
+            <section class="brand-panel relative flex flex-col justify-between overflow-hidden px-5 py-7 text-white sm:px-8 lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
                 <div class="flex items-center gap-3">
@@ -52,35 +52,35 @@
 
                 {{-- Hero copy --}}
                 <div>
-                    <p class="mb-7 mt-8 text-sm font-medium tracking-[.3em] text-[#8fe3b0]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
-                    <h1 class="text-4xl font-semibold leading-[1.12] xl:text-[3.1rem]">
+                    <p class="mb-4 mt-6 text-xs font-medium tracking-[.2em] text-[#8fe3b0] sm:mb-7 sm:mt-8 sm:text-sm sm:tracking-[.3em]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
+                    <h1 class="text-3xl font-semibold leading-[1.12] sm:text-4xl xl:text-[3.1rem]">
                         Manage Loans.<br>
                         <span class="text-[#8fe3b0]">Build a Brighter Future.</span>
                     </h1>
-                    <p class="mt-5 max-w-sm text-base leading-relaxed text-white/90">
+                    <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/90 sm:mt-5 sm:text-base">
                         Supporting organized loan management for a cooperative working toward the progress of its members and agricultural community.
                     </p>
 
-                    <div class="mt-5 max-w-sm rounded-2xl border border-white/20 bg-white/10 px-5 py-3 shadow-lg shadow-black/10 backdrop-blur-sm">
-                        <p class="text-sm font-semibold tracking-[.08em] text-[#a8edc1]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
-                        <p class="mt-1 text-sm text-white/85">United Members Toward Progress.</p>
+                    <div class="mt-4 max-w-sm rounded-2xl border border-white/20 bg-white/10 px-4 py-3 shadow-lg shadow-black/10 backdrop-blur-sm sm:mt-5 sm:px-5">
+                        <p class="text-xs font-semibold tracking-[.06em] text-[#a8edc1] sm:text-sm sm:tracking-[.08em]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
+                        <p class="mt-1 text-xs text-white/85 sm:text-sm">United Members Toward Progress.</p>
                     </div>
 
                     {{-- Feature highlights --}}
-                    <ul class="mt-7 flex items-start gap-6 text-sm">
-                        <li class="flex flex-col gap-3 pr-6">
+                    <ul class="mt-5 grid grid-cols-3 gap-2 text-xs sm:mt-7 sm:flex sm:items-start sm:gap-6 sm:text-sm">
+                        <li class="flex min-w-0 flex-col gap-2 sm:gap-3 sm:pr-6">
                             <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>
                             </span>
                             <span>Secure<br>and Reliable</span>
                         </li>
-                        <li class="flex flex-col gap-3 border-l border-white/20 pl-6 pr-6">
+                        <li class="flex min-w-0 flex-col gap-2 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6 sm:pr-6">
                             <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg>
                             </span>
                             <span>Real-time<br>Reports</span>
                         </li>
-                        <li class="flex flex-col gap-3 border-l border-white/20 pl-6">
+                        <li class="flex min-w-0 flex-col gap-2 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6">
                             <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.6 3.1-6 7-6s7 2.4 7 6H2z"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14c2.8.2 5 2 5 5h-5c0-2-.5-3.6-1.5-4.6.5-.2 1-.4 1.5-.4z"/></svg>
                             </span>
@@ -90,14 +90,14 @@
                 </div>
 
                 {{-- Tagline --}}
-                <div class="border-l-[3px] border-[#6fcf97] pl-4 text-sm leading-6 text-white/90">
+                <div class="mt-6 border-l-[3px] border-[#6fcf97] pl-4 text-xs leading-5 text-white/90 sm:mt-0 sm:text-sm sm:leading-6">
                     Better records today.<br>
                     Stronger communities tomorrow.
                 </div>
             </section>
 
             {{-- ============ RIGHT: LOGIN ============ --}}
-            <main class="relative flex items-center justify-center overflow-hidden px-6 py-5">
+            <main class="relative flex min-h-dvh items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 lg:min-h-0 lg:overflow-hidden">
 
                 {{-- Decorative leaves --}}
                 <svg class="pointer-events-none absolute -bottom-16 -right-10 hidden h-[420px] w-[360px] text-[#dcebe2] lg:block" viewBox="0 0 360 420" fill="currentColor" aria-hidden="true">
@@ -106,7 +106,7 @@
                     <path d="M360 230C360 300 320 380 250 420C230 340 260 260 360 230Z" opacity=".8"/>
                 </svg>
 
-                <div class="relative w-full max-w-[502px] rounded-xl border border-[#e3ebe5] bg-white/80 p-7 shadow-[0_1px_2px_rgba(15,61,43,.06),0_12px_40px_rgba(15,61,43,.06)] sm:p-9">
+                <div class="relative w-full max-w-[502px] rounded-xl border border-[#e3ebe5] bg-white/80 p-5 shadow-[0_1px_2px_rgba(15,61,43,.06),0_12px_40px_rgba(15,61,43,.06)] sm:p-9">
 
                     {{-- Card logo --}}
                     <div class="mb-5 flex items-center gap-3">
