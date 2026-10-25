@@ -69,8 +69,8 @@
     <div class="lg:pl-60">
         {{-- Top bar --}}
         <header class="sticky top-0 z-20 flex h-16 min-w-0 items-center gap-2 border-b border-[#e3ebe5] bg-white/90 px-3 backdrop-blur sm:gap-4 sm:px-8">
-            <button id="menuBtn" type="button" class="rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0] lg:hidden" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
-                <x-icon name="menu" />
+            <button id="menuBtn" type="button" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-[#dce7df] bg-white text-[#2d6a4f] shadow-sm hover:bg-[#eef5f0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#17744a] lg:hidden" aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false">
+                <x-icon name="menu" class="h-5 w-5" />
             </button>
 
             <form id="globalSearchForm" method="GET" action="{{ route('search.index') }}" class="relative min-w-0 max-w-lg flex-1">
