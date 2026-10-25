@@ -38,7 +38,7 @@
         <div class="grid h-dvh lg:grid-cols-2">
 
             {{-- ============ LEFT: BRAND PANEL ============ --}}
-            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-between gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
+            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-evenly gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:justify-between lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
                 <div class="flex items-center gap-3">
@@ -51,23 +51,23 @@
                 </div>
 
                 {{-- Hero copy --}}
-                <div>
-                    <p class="mb-2 mt-3 text-[10px] font-medium tracking-[.14em] text-[#8fe3b0] sm:mb-5 sm:mt-6 sm:text-sm sm:tracking-[.3em] lg:mb-7 lg:mt-8">GROWING TOGETHER, PROGRESSING TOGETHER</p>
+                <div class="flex flex-col gap-2 sm:gap-4 lg:gap-5">
+                    <p class="text-[10px] font-medium tracking-[.14em] text-[#8fe3b0] sm:text-sm sm:tracking-[.3em]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
                     <h1 class="text-2xl font-semibold leading-[1.08] sm:text-4xl xl:text-[3.1rem]">
                         Manage Loans.<br>
                         <span class="text-[#8fe3b0]">Build a Brighter Future.</span>
                     </h1>
-                    <p class="mt-2 max-w-sm text-xs leading-4 text-white/90 sm:mt-4 sm:text-base sm:leading-relaxed lg:mt-5">
+                    <p class="max-w-sm text-xs leading-4 text-white/90 sm:text-base sm:leading-relaxed">
                         Supporting organized loan management for a cooperative working toward the progress of its members and agricultural community.
                     </p>
 
-                    <div class="mt-2 max-w-sm rounded-2xl border border-white/20 bg-white/10 px-3 py-2 shadow-lg shadow-black/10 backdrop-blur-sm sm:mt-4 sm:px-5 sm:py-3 lg:mt-5">
+                    <div class="max-w-sm rounded-2xl border border-white/20 bg-white/10 px-3 py-2 shadow-lg shadow-black/10 backdrop-blur-sm sm:px-5 sm:py-3">
                         <p class="text-[10px] font-semibold tracking-[.04em] text-[#a8edc1] sm:text-sm sm:tracking-[.08em]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
                         <p class="mt-0.5 text-[10px] text-white/85 sm:mt-1 sm:text-sm">United Members Toward Progress.</p>
                     </div>
 
                     {{-- Feature highlights --}}
-                    <ul class="mt-3 grid grid-cols-3 gap-2 text-[10px] leading-tight sm:mt-6 sm:flex sm:items-start sm:gap-6 sm:text-sm lg:mt-7">
+                    <ul class="grid grid-cols-3 gap-2 text-[10px] leading-tight sm:flex sm:items-start sm:gap-6 sm:text-sm">
                         <li class="flex min-w-0 flex-col gap-1.5 sm:gap-3 sm:pr-6">
                             <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 sm:h-11 sm:w-11">
                                 <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>
