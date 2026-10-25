@@ -7,6 +7,10 @@
     <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/jpeg">
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .mobile-table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+        .mobile-table-scroll-hint { margin: 0 0 .5rem; color: #5b7567; font-size: .75rem; }
+    </style>
 </head>
 
 @php
@@ -199,6 +203,21 @@
     @endif
 
     <script>
+        document.querySelectorAll('main .overflow-x-auto').forEach((area) => {
+            const table = area.querySelector('table');
+            if (!table || table.scrollWidth <= area.clientWidth + 1) return;
+
+            area.classList.add('mobile-table-scroll');
+            area.tabIndex = 0;
+            area.setAttribute('role', 'region');
+            area.setAttribute('aria-label', 'Scrollable table. Swipe left or right to view all columns.');
+
+            const hint = document.createElement('p');
+            hint.className = 'mobile-table-scroll-hint sm:hidden';
+            hint.textContent = 'Swipe left or right on the table to see all columns.';
+            area.before(hint);
+        });
+
         const sidebar = document.getElementById('sidebar');
         const backdrop = document.getElementById('backdrop');
         const menuButton = document.getElementById('menuBtn');
