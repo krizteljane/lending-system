@@ -21,7 +21,7 @@
     ];
 @endphp
 
-<body class="min-h-screen overflow-x-clip bg-[#f6f9f6] text-[#0f3d2b] antialiased">
+<body class="min-h-screen overflow-x-hidden overflow-y-auto bg-[#f6f9f6] text-[#0f3d2b] antialiased">
 
     {{-- Sidebar --}}
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-60 -translate-x-full flex-col overflow-y-auto overscroll-contain bg-[#0f4a33] text-white transition-transform lg:translate-x-0">

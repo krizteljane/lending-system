@@ -57,7 +57,7 @@
             }
 
             @media (max-width: 1023px) and (max-height: 480px) {
-                #brandPanel { height: auto; min-height: 100dvh; overflow-y: auto; justify-content: flex-start; gap: .75rem; }
+                #brandPanel { height: auto; min-height: 100dvh; overflow-y: visible; justify-content: flex-start; gap: .75rem; }
             }
         </style>
     </head>
@@ -67,11 +67,11 @@
         $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
     @endphp
 
-    <body class="h-dvh overflow-hidden bg-[#f6f9f6] text-[#0f3d2b] antialiased">
-        <div class="grid h-dvh lg:grid-cols-2">
+    <body class="min-h-dvh overflow-x-hidden overflow-y-auto bg-[#f6f9f6] text-[#0f3d2b] antialiased lg:h-dvh lg:overflow-hidden">
+        <div class="grid min-h-dvh lg:h-dvh lg:grid-cols-2">
 
             {{-- ============ LEFT: BRAND PANEL ============ --}}
-            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-evenly gap-2 overflow-hidden px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:justify-between lg:gap-0 lg:px-[10%] lg:py-8 xl:px-[12%]">
+            <section id="brandPanel" class="brand-panel relative flex min-h-dvh flex-col justify-evenly gap-2 overflow-x-clip px-4 py-4 text-white sm:gap-4 sm:px-8 sm:py-6 lg:h-dvh lg:min-h-0 lg:justify-between lg:gap-0 lg:overflow-y-hidden lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
                 <div class="brand-header flex items-center gap-3">
@@ -137,7 +137,7 @@
             </section>
 
             {{-- ============ RIGHT: LOGIN ============ --}}
-            <main id="sign-in" class="relative hidden h-dvh items-start justify-center overflow-y-auto px-4 py-6 sm:items-center sm:px-6 lg:flex lg:overflow-hidden">
+            <main id="sign-in" class="relative hidden min-h-dvh items-start justify-center overflow-y-visible px-4 py-6 sm:items-center sm:px-6 lg:flex lg:h-dvh lg:min-h-0 lg:overflow-hidden">
 
                 {{-- Decorative leaves --}}
                 <svg class="pointer-events-none absolute -bottom-16 -right-10 hidden h-[420px] w-[360px] text-[#dcebe2] lg:block" viewBox="0 0 360 420" fill="currentColor" aria-hidden="true">
