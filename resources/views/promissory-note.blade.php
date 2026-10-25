@@ -24,7 +24,7 @@
 <div class="mx-auto max-w-4xl">
     <div class="note-actions mb-5 flex flex-wrap items-center justify-between gap-3">
         <div><a href="{{ route('contracts.index', ['document' => 'promissory-note']) }}" class="mb-1 inline-flex items-center gap-1 text-sm font-medium text-[#17744a] hover:underline"><span aria-hidden="true">←</span> Back to contracts</a><h1 class="text-2xl font-semibold">Promissory note</h1><p class="mt-1 text-sm text-[#5b7567]">For {{ $loan->borrower->full_name }} · {{ $loan->reference }}</p></div>
-        <button type="button" onclick="window.print()" class="rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]">Print note</button>
+        <button type="button" class="password-confirm-trigger rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]" data-confirm-action="print">Print note</button>
     </div>
     <nav class="note-actions mb-5 flex gap-6 border-b border-[#e3ebe5]" aria-label="Loan documents">
         <a href="{{ route('loans.contract', $loan) }}" class="border-b-2 border-transparent px-1 py-3 text-sm font-medium text-slate-500">Loan Agreement</a>

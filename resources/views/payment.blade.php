@@ -4,11 +4,11 @@
 @section('content')
     <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><h1 class="text-2xl font-semibold">Payments</h1><p class="mt-1 text-sm text-[#5b7567]">Record repayments and review the remaining schedule.</p></div>
         @if ($loans->isNotEmpty())
-            <form method="GET" action="{{ route('payments.index') }}" class="flex items-end gap-2"><div><label for="loan_id" class="mb-1 block text-xs font-medium text-[#5b7567]">Select loan</label><select id="loan_id" name="loan_id" class="h-10 min-w-56 rounded-md border border-[#dbe5de] bg-white px-3 text-sm">@foreach ($loans as $option)<option value="{{ $option->id }}" @selected($loan?->id === $option->id)>{{ $option->reference }} · {{ $option->borrower->full_name }}</option>@endforeach</select></div><button class="h-10 rounded-md bg-[#17744a] px-4 text-sm font-medium text-white">View</button></form>
+            <form method="GET" action="{{ route('payments.index') }}" class="flex items-end gap-2"><div><label for="loan_id" class="mb-1 block text-xs font-medium text-[#5b7567]">Select loaner</label><select id="loan_id" name="loan_id" required class="h-10 min-w-56 rounded-md border border-[#dbe5de] bg-white px-3 text-sm"><option value="" @selected(!$loan)>Choose a loaner</option>@foreach ($loans as $option)<option value="{{ $option->id }}" @selected($loan?->id === $option->id)>{{ $option->borrower->full_name }} · {{ $option->reference }}</option>@endforeach</select></div><button class="h-10 rounded-md bg-[#17744a] px-4 text-sm font-medium text-white">View</button></form>
         @endif
     </div>
     @if (!$loan)
-        <div class="rounded-xl border border-[#e3ebe5] bg-white p-8 text-center"><p class="text-[#5b7567]">No saved loans yet.</p><a href="{{ route('loans.create') }}" class="mt-4 inline-flex rounded-md bg-[#17744a] px-4 py-2 text-sm text-white">Create a loan</a></div>
+        <div class="rounded-xl border border-[#e3ebe5] bg-white p-8 text-center"><p class="text-[#5b7567]">{{ $loans->isEmpty() ? 'No saved loans yet.' : 'Choose a loaner above to view payment information.' }}</p>@if ($loans->isEmpty())<a href="{{ route('loans.create') }}" class="mt-4 inline-flex rounded-md bg-[#17744a] px-4 py-2 text-sm text-white">Create a loan</a>@endif</div>
     @else
         @if (session('success'))<div class="mb-5 rounded-lg bg-green-50 p-3 text-sm text-green-800">{{ session('success') }}</div>@endif
         <div class="mb-6"><p class="text-sm"><span class="font-medium">{{ $loan->reference }}</span> · {{ $loan->borrower->full_name }} · {{ number_format((float) $loan->monthly_rate, 2) }}% monthly</p></div>

@@ -9,6 +9,7 @@ Route::post('/login', [AuthController::class, 'store'])->name('login');
 Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function () {
+    Route::post('/confirm-print', [AuthController::class, 'confirmPrint'])->name('print.confirm');
     Route::get('/dashboard', [LoanController::class, 'dashboard'])->name('dashboard');
     Route::get('/borrowers', [LoanController::class, 'borrowers'])->name('borrowers.index');
     Route::get('/borrowers/{borrower}', [LoanController::class, 'borrower'])->name('borrowers.show');

@@ -64,7 +64,7 @@
             <h1 class="text-2xl font-semibold">{{ $isPreview ? 'Loan Disclosure Preview' : 'Loan Disclosure' }}</h1>
             <p class="mt-1 text-sm text-[#5b7567]">{{ $isPreview ? 'Review the disclosure. This draft has not been saved as an official loan.' : 'Generated from the saved borrower and loan details.' }}</p>
         </div>
-        @if ($loan)<button onclick="window.print()" class="inline-flex items-center gap-2 rounded-md border border-[#17744a] px-4 py-2 text-sm text-[#17744a] hover:bg-[#e3f5ea] print:hidden"><x-icon name="print" class="h-4 w-4" /> Print</button>@endif
+        @if ($loan)<button type="button" class="password-confirm-trigger inline-flex items-center gap-2 rounded-md border border-[#17744a] px-4 py-2 text-sm text-[#17744a] hover:bg-[#e3f5ea] print:hidden" data-confirm-action="print"><x-icon name="print" class="h-4 w-4" /> Print</button>@endif
     </div>
     @if (!$loan)
         <div class="rounded-xl border border-[#e3ebe5] bg-white p-8 text-center"><p class="text-[#5b7567]">No saved loans yet.</p><a href="{{ route('loans.create') }}" class="mt-4 inline-flex rounded-md bg-[#17744a] px-4 py-2 text-sm text-white">Create a loan</a></div>
@@ -145,7 +145,7 @@
             @endif
             <p class="late-charge-note mt-3 text-xs text-gray-600">A late charge applies to each unpaid installment after it is 5 days overdue. The charge is 1.25% of original principal for the first late month and each additional 30-day period it remains unpaid.</p>
             <div class="signature-block mt-12 grid grid-cols-2 gap-x-10 gap-y-8">
-                <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">Treasurer</p><p class="text-xs italic">Released by</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
+                <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">San Luis Agri-Ventures Cooperative</p><p class="text-xs italic">Released by</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->borrower->full_name }}</p><p class="text-xs italic">Borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 @if ($loan->co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->co_borrower_name }}</p><p class="text-xs italic">Co-borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>@endif
                 @if ($loan->second_co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->second_co_borrower_name }}</p><p class="text-xs italic">Second co-borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>@endif

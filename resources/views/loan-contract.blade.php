@@ -51,7 +51,7 @@
 <div class="mx-auto max-w-4xl">
     <div class="agreement-actions mb-5 flex items-center justify-between gap-3">
         <div><a href="{{ route('contracts.index', ['document' => 'contract']) }}" class="mb-1 inline-flex items-center gap-1 text-sm font-medium text-[#17744a] hover:underline"><span aria-hidden="true">←</span> Back to contracts</a><h1 class="text-2xl font-semibold">Loan agreement</h1><p class="mt-1 text-sm text-[#5b7567]">Agreement for {{ $loan->borrower->full_name }} · {{ $loan->reference }}</p></div>
-        <button onclick="window.print()" class="rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]">Print agreement</button>
+        <button type="button" class="password-confirm-trigger rounded-md border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#e3f5ea]" data-confirm-action="print">Print agreement</button>
     </div>
 
     <article class="agreement-sheet rounded-xl border border-[#d4ddd6] bg-white p-8 text-sm leading-relaxed text-gray-900 shadow-sm">

@@ -666,7 +666,7 @@ class LoanController extends Controller
         $loans = Loan::with('borrower')->latest()->get();
         $loan = $request->filled('loan_id')
             ? $loans->firstWhere('id', (int) $request->query('loan_id'))
-            : $loans->first();
+            : null;
         $payments = $loan ? $loan->payments()->latest('paid_at')->get() : collect();
         $accounting = $loan ? $this->accounting->summary($loan) : null;
         $returned = $accounting['returned'] ?? 0.0;

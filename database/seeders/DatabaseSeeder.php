@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
-            ['email' => 'sabanganmike31@gmail.com'],
+        $email = env('DEPLOY_ADMIN_EMAIL');
+        $password = env('DEPLOY_ADMIN_PASSWORD');
+
+        if (! $email || ! $password) {
+            return;
+        }
+
+        User::firstOrCreate(
+            ['email' => $email],
             [
-                'name' => 'Mike Anthony D. Sabangan',
-                'password' => 'Mikeanthony31',
+                'name' => env('DEPLOY_ADMIN_NAME', 'Administrator'),
+                'password' => $password,
             ],
         );
     }

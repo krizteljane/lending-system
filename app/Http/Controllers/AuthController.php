@@ -30,11 +30,24 @@ class AuthController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+        ]);
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('home');
+    }
+
+    public function confirmPrint(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+        ]);
+
+        return back()->with('print_after_password_confirmation', true);
     }
 
     public function updatePassword(Request $request): RedirectResponse

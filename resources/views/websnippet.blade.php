@@ -53,12 +53,9 @@
                 <span class="block text-xs text-white/60">Administrator</span>
             </span>
         </a>
-        <form method="POST" action="{{ route('logout') }}" class="mt-1">
-            @csrf
-            <button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/10 hover:text-white">
-                <x-icon name="logout" class="h-[18px] w-[18px]" /> Log out
-            </button>
-        </form>
+        <button type="button" data-confirm-action="logout" class="password-confirm-trigger mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/10 hover:text-white">
+            <x-icon name="logout" class="h-[18px] w-[18px]" /> Log out
+        </button>
         </div>
     </aside>
 
@@ -87,26 +84,94 @@
                     <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#17744a] text-xs font-semibold text-white">{{ auth()->user()->initials() }}</span>
                     <span class="hidden truncate text-sm font-medium sm:block">{{ auth()->user()->name }}</span>
                 </a>
-                <form method="POST" action="{{ Route::has('logout') ? route('logout') : '#' }}">
-                    @csrf
-                    <button type="submit" class="rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0]" aria-label="Log out" title="Log out">
-                        <x-icon name="logout" />
-                    </button>
-                </form>
+                <button type="button" data-confirm-action="logout" class="password-confirm-trigger rounded-md p-2 text-[#2d6a4f] hover:bg-[#eef5f0]" aria-label="Log out" title="Log out">
+                    <x-icon name="logout" />
+                </button>
             </div>
         </header>
 
         <div id="adminContextMenu" class="fixed z-50 hidden min-w-36 rounded-md border border-[#e3ebe5] bg-white p-1 shadow-lg">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full rounded px-3 py-2 text-left text-sm text-red-700 hover:bg-red-50">Log out</button>
-            </form>
+            <button type="button" data-confirm-action="logout" class="password-confirm-trigger w-full rounded px-3 py-2 text-left text-sm text-red-700 hover:bg-red-50">Log out</button>
         </div>
 
         <main class="px-4 py-8 sm:px-8">
             @yield('content')
         </main>
     </div>
+
+    <dialog id="passwordConfirmDialog" class="fixed left-1/2 top-1/2 m-0 w-[min(92vw,28rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#d4ddd6] p-0 shadow-[0_24px_70px_rgba(15,61,43,0.3)] backdrop:bg-black/40">
+        <form id="passwordConfirmForm" method="POST" action="{{ route('logout') }}" data-logout-url="{{ route('logout') }}" data-print-url="{{ route('print.confirm') }}">
+            @csrf
+            <input type="hidden" name="confirm_action" id="passwordConfirmAction" value="">
+            <div class="flex items-start justify-between border-b border-[#eef3ef] px-5 py-4">
+                <div><p class="text-xs font-medium uppercase tracking-wide text-[#17744a]">Security check</p><h2 id="passwordConfirmTitle" class="mt-1 text-lg font-semibold text-[#0f3d2b]">Confirm your password</h2></div>
+                <button type="button" id="passwordConfirmClose" aria-label="Close" class="rounded-md px-2 py-1 text-xl leading-none text-[#5b7567] hover:bg-[#f3f7f4]">&times;</button>
+            </div>
+            <div class="px-5 py-5">
+                <p id="passwordConfirmMessage" class="mb-4 text-sm text-[#5b7567]">Enter your password to continue.</p>
+                <label for="passwordConfirmInput" class="mb-1 block text-sm font-medium text-[#0f3d2b]">Password</label>
+                <input id="passwordConfirmInput" name="current_password" type="password" autocomplete="current-password" required class="w-full rounded-md border border-[#b8c9bf] px-3 py-2.5 focus:border-[#17744a] focus:outline-none focus:ring-2 focus:ring-[#17744a]/20">
+                @if ($errors->has('current_password') && in_array(old('confirm_action'), ['print', 'logout'], true))
+                    <p class="mt-2 text-sm text-red-600">{{ $errors->first('current_password') }}</p>
+                @endif
+                <button type="submit" id="passwordConfirmSubmit" class="mt-5 w-full rounded-md bg-[#17744a] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#0f5f3b]">Continue</button>
+            </div>
+        </form>
+    </dialog>
+
+    @php
+        $shouldRetryPasswordConfirm = in_array(old('confirm_action'), ['print', 'logout'], true);
+    @endphp
+    <script>
+        (() => {
+            const dialog = document.getElementById('passwordConfirmDialog');
+            const form = document.getElementById('passwordConfirmForm');
+            const actionInput = document.getElementById('passwordConfirmAction');
+            const passwordInput = document.getElementById('passwordConfirmInput');
+            const title = document.getElementById('passwordConfirmTitle');
+            const message = document.getElementById('passwordConfirmMessage');
+            const submit = document.getElementById('passwordConfirmSubmit');
+
+            function openConfirmation(action) {
+                actionInput.value = action;
+                const isPrint = action === 'print';
+                form.action = isPrint ? form.dataset.printUrl : form.dataset.logoutUrl;
+                title.textContent = isPrint ? 'Confirm before printing' : 'Confirm before logging out';
+                message.textContent = isPrint ? 'Enter your password to print this document.' : 'Enter your password to log out of SALUAG.';
+                submit.textContent = isPrint ? 'Confirm and print' : 'Confirm and log out';
+                passwordInput.value = '';
+                dialog.showModal();
+                passwordInput.focus();
+            }
+
+            document.querySelectorAll('.password-confirm-trigger').forEach(button => {
+                button.addEventListener('click', () => openConfirmation(button.dataset.confirmAction));
+            });
+            document.getElementById('passwordConfirmClose').addEventListener('click', () => dialog.close());
+            dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+            document.addEventListener('keydown', event => {
+                if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'p' && !dialog.open) {
+                    event.preventDefault();
+                    openConfirmation('print');
+                }
+            });
+
+            const retryAction = @json($shouldRetryPasswordConfirm);
+            if (retryAction) {
+                actionInput.value = @json(old('confirm_action'));
+                form.action = actionInput.value === 'print' ? form.dataset.printUrl : form.dataset.logoutUrl;
+                title.textContent = actionInput.value === 'print' ? 'Confirm before printing' : 'Confirm before logging out';
+                message.textContent = actionInput.value === 'print' ? 'Enter your password to print this document.' : 'Enter your password to log out of SALUAG.';
+                submit.textContent = actionInput.value === 'print' ? 'Confirm and print' : 'Confirm and log out';
+                dialog.showModal();
+                passwordInput.focus();
+            }
+        })();
+    </script>
+
+    @if (session('print_after_password_confirmation'))
+        <script>window.addEventListener('load', () => window.print());</script>
+    @endif
 
     @if (session('welcome_modal'))
         <dialog id="loginWelcomeDialog" class="fixed left-1/2 top-1/2 m-0 w-[min(92vw,28rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#d4ddd6] p-0 shadow-[0_24px_70px_rgba(15,61,43,0.3)] backdrop:bg-black/40">
