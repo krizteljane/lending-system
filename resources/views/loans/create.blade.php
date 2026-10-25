@@ -9,6 +9,8 @@
     #loanForm select {
         display: block;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         min-height: 46px;
         padding: .65rem .85rem;
         border: 1px solid #b8c9bf;
@@ -75,22 +77,38 @@
         margin-top: 1.25rem;
         gap: 1.25rem;
     }
+
+    #loanForm,
+    #loanForm > div,
+    #loanForm > aside,
+    #loanForm section,
+    #loanForm .grid > div { min-width: 0; max-width: 100%; }
+    #loanForm textarea { box-sizing: border-box; max-width: 100%; min-width: 0; width: 100%; }
+
+    @media (max-width: 639px) {
+        #loanForm .space-y-6 > section { padding: 1rem; }
+    }
 </style>
 <div class="mx-auto max-w-7xl">
-    <div class="mb-6"><h1 class="text-2xl font-semibold">{{ $savedDraftId ? 'Continue loan draft' : 'New loan' }}</h1><p class="mt-1 text-sm text-[#5b7567]">Fields can be left blank while you prepare the application. Required information is checked when you generate the disclosure; incomplete applications can be saved as drafts.</p></div>
+    <div class="mb-6"><h1 class="text-2xl font-semibold">{{ $savedDraftId ? 'Continue loan draft' : 'New loan' }}</h1><p class="mt-1 text-sm text-[#5b7567]">Fields marked <span class="font-semibold text-red-600">*</span> are required to generate the disclosure. Incomplete applications can still be saved as drafts.</p></div>
     @if (session('success'))<div class="mb-5 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">{{ session('success') }}</div>@endif
     @if (session('error'))<div class="mb-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">{{ session('error') }}</div>@endif
-    <form method="POST" action="{{ route('loans.store') }}" enctype="multipart/form-data" class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(440px,1fr)]" id="loanForm">
+    <form method="POST" action="{{ route('loans.store') }}" enctype="multipart/form-data" class="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(440px,1fr)]" id="loanForm">
         @csrf
         @if ($savedDraftId)<input type="hidden" name="saved_draft_id" value="{{ $savedDraftId }}">@endif
-        <div class="space-y-6">
-            <nav class="flex overflow-x-auto border-b border-[#e3ebe5]" aria-label="New loan sections" role="tablist">
+        <div class="min-w-0 space-y-6">
+            <div class="relative min-w-0">
+            <nav id="loanTabs" class="flex min-w-0 overflow-x-auto border-b border-[#e3ebe5] pr-10" aria-label="New loan sections" role="tablist">
                 <button type="button" id="loanTabBorrower" role="tab" aria-controls="loanPanelBorrower" data-loan-tab="borrower" class="loan-form-tab shrink-0 border-b-2 border-[#17744a] px-4 py-3 text-sm font-medium text-[#17744a]">Borrower</button>
                 <button type="button" id="loanTabCoBorrower" role="tab" aria-controls="loanPanelCoBorrower" data-loan-tab="co_borrower" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Co-borrower</button>
                 <button type="button" id="loanTabSecondCoBorrower" role="tab" aria-controls="loanPanelSecondCoBorrower" data-loan-tab="second_co_borrower" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">2nd co-borrower</button>
                 <button type="button" id="loanTabTerms" role="tab" aria-controls="loanPanelTerms" data-loan-tab="terms" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Loan terms</button>
                 <button type="button" id="loanTabCharges" role="tab" aria-controls="loanPanelCharges" data-loan-tab="charges" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Charges</button>
             </nav>
+            <button id="loanTabsScrollRight" type="button" class="absolute right-0 top-0 z-10 flex h-full w-10 items-center justify-center bg-gradient-to-l from-[#f6f9f6] via-[#f6f9f6] to-transparent text-[#17744a] sm:hidden" aria-label="Show more loan tabs">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            </div>
 
             <section id="loanPanelBorrower" role="tabpanel" aria-labelledby="loanTabBorrower" data-loan-tab-panel="borrower" class="rounded-xl border border-[#e3ebe5] bg-white p-6">
                 <h2 class="font-semibold">Borrower information</h2>
@@ -201,6 +219,39 @@
     const $ = id => document.getElementById(id);
     const loanTabs = Array.from(document.querySelectorAll('[data-loan-tab]'));
     const loanPanels = Array.from(document.querySelectorAll('[data-loan-tab-panel]'));
+    const loanTabsNav = $('loanTabs');
+    const loanTabsScrollRight = $('loanTabsScrollRight');
+
+    const requiredFields = @json(array_values(array_filter([
+        'full_name', 'address', 'phone', 'date_of_birth', 'id_type', 'id_number',
+        empty($draft['id_file_path'] ?? null) ? 'id_file' : null,
+        'co_borrower_name', 'co_borrower_address', 'co_borrower_phone', 'co_borrower_date_of_birth', 'co_borrower_id_type', 'co_borrower_id_number', 'co_borrower_id_file',
+        'second_co_borrower_name', 'second_co_borrower_address', 'second_co_borrower_phone', 'second_co_borrower_date_of_birth', 'second_co_borrower_id_type', 'second_co_borrower_id_number', 'second_co_borrower_id_file',
+        'purpose', 'purpose_other', 'amount', 'term', 'start_date', 'monthly_rate', 'calculation_type',
+    ])));
+    requiredFields.forEach(name => {
+        const label = document.querySelector(`#loanForm label[for="${name}"]`);
+        if (!label || label.querySelector('.required-marker')) return;
+        const marker = document.createElement('span');
+        marker.className = 'required-marker ml-1 font-semibold text-red-600';
+        marker.textContent = '*';
+        marker.setAttribute('aria-hidden', 'true');
+        label.append(marker);
+    });
+
+    function updateLoanTabsCue() {
+        if (!loanTabsNav || !loanTabsScrollRight) return;
+        const hasMoreTabs = loanTabsNav.scrollWidth > loanTabsNav.clientWidth + 1;
+        const atEnd = loanTabsNav.scrollLeft + loanTabsNav.clientWidth >= loanTabsNav.scrollWidth - 2;
+        loanTabsScrollRight.classList.toggle('hidden', !hasMoreTabs || atEnd);
+    }
+    loanTabsScrollRight?.addEventListener('click', () => {
+        loanTabsNav.scrollBy({ left: Math.max(120, loanTabsNav.clientWidth * 0.7), behavior: 'smooth' });
+    });
+    loanTabsNav?.addEventListener('scroll', updateLoanTabsCue, { passive: true });
+    window.addEventListener('resize', updateLoanTabsCue);
+    requestAnimationFrame(updateLoanTabsCue);
+
     function activateLoanTab(name) {
         loanTabs.forEach(tab => {
             const active = tab.dataset.loanTab === name;

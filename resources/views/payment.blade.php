@@ -8,7 +8,7 @@
         @endif
     </div>
     @if (!$loan)
-        <div class="rounded-xl border border-[#e3ebe5] bg-white p-8 text-center"><p class="text-[#5b7567]">{{ $loans->isEmpty() ? 'No saved loans yet.' : 'Choose a loaner above to view payment information.' }}</p>@if ($loans->isEmpty())<a href="{{ route('loans.create') }}" class="mt-4 inline-flex rounded-md bg-[#17744a] px-4 py-2 text-sm text-white">Create a loan</a>@endif</div>
+        <div class="rounded-xl border border-[#e3ebe5] bg-white p-8 text-center"><p class="text-[#5b7567]">{{ $loans->isEmpty() ? 'No saved loans yet.' : 'Choose a loaner above to view payment information.' }}</p></div>
     @else
         @if (session('success'))<div class="mb-5 rounded-lg bg-green-50 p-3 text-sm text-green-800">{{ session('success') }}</div>@endif
         <div class="mb-6"><p class="text-sm"><span class="font-medium">{{ $loan->reference }}</span> · {{ $loan->borrower->full_name }} · {{ number_format((float) $loan->monthly_rate, 2) }}% monthly</p></div>
