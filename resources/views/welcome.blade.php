@@ -34,55 +34,55 @@
         $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
     @endphp
 
-    <body class="min-h-dvh overflow-x-hidden bg-[#f6f9f6] text-[#0f3d2b] antialiased lg:h-dvh lg:overflow-hidden">
-        <div class="grid min-h-dvh lg:h-full lg:grid-cols-2">
+    <body class="h-dvh overflow-hidden bg-[#f6f9f6] text-[#0f3d2b] antialiased">
+        <div class="grid h-dvh lg:grid-cols-2">
 
             {{-- ============ LEFT: BRAND PANEL ============ --}}
-            <section class="brand-panel relative flex flex-col justify-between overflow-hidden px-5 py-7 text-white sm:px-8 lg:px-[10%] lg:py-8 xl:px-[12%]">
+            <section id="brandPanel" class="brand-panel relative flex h-dvh flex-col justify-between overflow-hidden px-4 py-4 text-white sm:px-8 sm:py-6 lg:px-[10%] lg:py-8 xl:px-[12%]">
 
                 {{-- Top logo --}}
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-16 w-16 rounded-full bg-white object-contain p-0">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-12 w-12 shrink-0 rounded-full bg-white object-contain p-0 sm:h-16 sm:w-16">
                     <div class="leading-tight">
-                        <div class="text-2xl font-semibold leading-none">SALUAG</div>
-                        <div class="text-sm text-white/70">San Luis Agri-Ventures Cooperative</div>
-                        <div class="text-sm leading-tight text-white/75">Lending Management System</div>
+                        <div class="text-xl font-semibold leading-none sm:text-2xl">SALUAG</div>
+                        <div class="text-xs text-white/70 sm:text-sm">San Luis Agri-Ventures Cooperative</div>
+                        <div class="text-xs leading-tight text-white/75 sm:text-sm">Lending Management System</div>
                     </div>
                 </div>
 
                 {{-- Hero copy --}}
                 <div>
-                    <p class="mb-4 mt-6 text-xs font-medium tracking-[.2em] text-[#8fe3b0] sm:mb-7 sm:mt-8 sm:text-sm sm:tracking-[.3em]">GROWING TOGETHER, PROGRESSING TOGETHER</p>
-                    <h1 class="text-3xl font-semibold leading-[1.12] sm:text-4xl xl:text-[3.1rem]">
+                    <p class="mb-2 mt-3 text-[10px] font-medium tracking-[.14em] text-[#8fe3b0] sm:mb-5 sm:mt-6 sm:text-sm sm:tracking-[.3em] lg:mb-7 lg:mt-8">GROWING TOGETHER, PROGRESSING TOGETHER</p>
+                    <h1 class="text-2xl font-semibold leading-[1.08] sm:text-4xl xl:text-[3.1rem]">
                         Manage Loans.<br>
                         <span class="text-[#8fe3b0]">Build a Brighter Future.</span>
                     </h1>
-                    <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/90 sm:mt-5 sm:text-base">
+                    <p class="mt-2 max-w-sm text-xs leading-4 text-white/90 sm:mt-4 sm:text-base sm:leading-relaxed lg:mt-5">
                         Supporting organized loan management for a cooperative working toward the progress of its members and agricultural community.
                     </p>
 
-                    <div class="mt-4 max-w-sm rounded-2xl border border-white/20 bg-white/10 px-4 py-3 shadow-lg shadow-black/10 backdrop-blur-sm sm:mt-5 sm:px-5">
-                        <p class="text-xs font-semibold tracking-[.06em] text-[#a8edc1] sm:text-sm sm:tracking-[.08em]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
-                        <p class="mt-1 text-xs text-white/85 sm:text-sm">United Members Toward Progress.</p>
+                    <div class="mt-2 max-w-sm rounded-2xl border border-white/20 bg-white/10 px-3 py-2 shadow-lg shadow-black/10 backdrop-blur-sm sm:mt-4 sm:px-5 sm:py-3 lg:mt-5">
+                        <p class="text-[10px] font-semibold tracking-[.04em] text-[#a8edc1] sm:text-sm sm:tracking-[.08em]">NAGKAKAISANG MIYEMBRO TUNGO SA PAG ASENSO</p>
+                        <p class="mt-0.5 text-[10px] text-white/85 sm:mt-1 sm:text-sm">United Members Toward Progress.</p>
                     </div>
 
                     {{-- Feature highlights --}}
-                    <ul class="mt-5 grid grid-cols-3 gap-2 text-xs sm:mt-7 sm:flex sm:items-start sm:gap-6 sm:text-sm">
-                        <li class="flex min-w-0 flex-col gap-2 sm:gap-3 sm:pr-6">
-                            <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
-                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>
+                    <ul class="mt-3 grid grid-cols-3 gap-2 text-[10px] leading-tight sm:mt-6 sm:flex sm:items-start sm:gap-6 sm:text-sm lg:mt-7">
+                        <li class="flex min-w-0 flex-col gap-1.5 sm:gap-3 sm:pr-6">
+                            <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 sm:h-11 sm:w-11">
+                                <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/></svg>
                             </span>
                             <span>Secure<br>and Reliable</span>
                         </li>
-                        <li class="flex min-w-0 flex-col gap-2 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6 sm:pr-6">
-                            <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
-                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg>
+                        <li class="flex min-w-0 flex-col gap-1.5 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6 sm:pr-6">
+                            <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 sm:h-11 sm:w-11">
+                                <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg>
                             </span>
                             <span>Real-time<br>Reports</span>
                         </li>
-                        <li class="flex min-w-0 flex-col gap-2 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6">
-                            <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/15">
-                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.6 3.1-6 7-6s7 2.4 7 6H2z"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14c2.8.2 5 2 5 5h-5c0-2-.5-3.6-1.5-4.6.5-.2 1-.4 1.5-.4z"/></svg>
+                        <li class="flex min-w-0 flex-col gap-1.5 border-l border-white/20 pl-2 sm:gap-3 sm:pl-6">
+                            <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 sm:h-11 sm:w-11">
+                                <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.6 3.1-6 7-6s7 2.4 7 6H2z"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14c2.8.2 5 2 5 5h-5c0-2-.5-3.6-1.5-4.6.5-.2 1-.4 1.5-.4z"/></svg>
                             </span>
                             <span>Easy<br>Borrower Management</span>
                         </li>
@@ -90,19 +90,19 @@
                 </div>
 
                 {{-- Tagline --}}
-                <div class="mt-6 border-l-[3px] border-[#6fcf97] pl-4 text-xs leading-5 text-white/90 sm:mt-0 sm:text-sm sm:leading-6">
+                <div class="mt-3 border-l-[3px] border-[#6fcf97] pl-3 text-[10px] leading-4 text-white/90 sm:mt-0 sm:pl-4 sm:text-sm sm:leading-6">
                     Better records today.<br>
                     Stronger communities tomorrow.
                 </div>
 
-                <a href="#sign-in" class="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-[#0f4a33] shadow-lg transition hover:bg-[#eaf5ee] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f4a33] lg:hidden">
+                <button id="showSignIn" type="button" class="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-[#0f4a33] shadow-lg transition hover:bg-[#eaf5ee] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f4a33] lg:hidden">
                     Sign in
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </a>
+                </button>
             </section>
 
             {{-- ============ RIGHT: LOGIN ============ --}}
-            <main id="sign-in" class="relative flex min-h-dvh scroll-mt-4 items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 lg:min-h-0 lg:overflow-hidden">
+            <main id="sign-in" class="relative hidden h-dvh items-start justify-center overflow-y-auto px-4 py-6 sm:items-center sm:px-6 lg:flex lg:overflow-hidden">
 
                 {{-- Decorative leaves --}}
                 <svg class="pointer-events-none absolute -bottom-16 -right-10 hidden h-[420px] w-[360px] text-[#dcebe2] lg:block" viewBox="0 0 360 420" fill="currentColor" aria-hidden="true">
@@ -112,6 +112,10 @@
                 </svg>
 
                 <div class="relative w-full max-w-[502px] rounded-xl border border-[#e3ebe5] bg-white/80 p-5 shadow-[0_1px_2px_rgba(15,61,43,.06),0_12px_40px_rgba(15,61,43,.06)] sm:p-9">
+
+                    <button id="backToBrand" type="button" class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-[#17744a] hover:text-[#0f4a33] focus:outline-none focus-visible:underline lg:hidden">
+                        <span aria-hidden="true">&larr;</span> Back
+                    </button>
 
                     {{-- Card logo --}}
                     <div class="mb-5 flex items-center gap-3">
@@ -196,6 +200,46 @@
         </div>
 
         <script>
+            (() => {
+                const brandPanel = document.getElementById('brandPanel');
+                const signInPanel = document.getElementById('sign-in');
+                const mobileSignIn = document.getElementById('showSignIn');
+                const backToBrand = document.getElementById('backToBrand');
+                const mobileLayout = window.matchMedia('(max-width: 1023px)');
+
+                function showBrand() {
+                    brandPanel.classList.remove('hidden');
+                    signInPanel.classList.add('hidden');
+                    signInPanel.classList.remove('flex');
+                }
+
+                function showLogin() {
+                    if (!mobileLayout.matches) return;
+                    brandPanel.classList.add('hidden');
+                    signInPanel.classList.remove('hidden');
+                    signInPanel.classList.add('flex');
+                    signInPanel.scrollTop = 0;
+                }
+
+                mobileSignIn.addEventListener('click', showLogin);
+                backToBrand.addEventListener('click', showBrand);
+                mobileLayout.addEventListener('change', event => {
+                    if (event.matches) {
+                        showBrand();
+                    } else {
+                        brandPanel.classList.remove('hidden');
+                        signInPanel.classList.remove('hidden', 'flex');
+                    }
+                });
+
+                if (mobileLayout.matches) {
+                    showBrand();
+                } else {
+                    brandPanel.classList.remove('hidden');
+                    signInPanel.classList.remove('hidden', 'flex');
+                }
+            })();
+
             (function () {
                 const input = document.getElementById('password');
                 const btn = document.getElementById('togglePassword');
