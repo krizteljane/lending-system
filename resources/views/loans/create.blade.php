@@ -4,6 +4,17 @@
 @section('content')
 @php($draft = $draft ?? [])
 @php($savedDraftId = $savedDraftId ?? null)
+@php
+    $requiredLoanFields = [
+        'full_name', 'address', 'phone', 'date_of_birth', 'id_type', 'id_number',
+        'co_borrower_name', 'co_borrower_address', 'co_borrower_phone', 'co_borrower_date_of_birth', 'co_borrower_id_type', 'co_borrower_id_number', 'co_borrower_id_file',
+        'second_co_borrower_name', 'second_co_borrower_address', 'second_co_borrower_phone', 'second_co_borrower_date_of_birth', 'second_co_borrower_id_type', 'second_co_borrower_id_number', 'second_co_borrower_id_file',
+        'purpose', 'purpose_other', 'amount', 'term', 'start_date', 'monthly_rate', 'calculation_type',
+    ];
+    if (empty($draft['id_file_path'] ?? null)) {
+        $requiredLoanFields[] = 'id_file';
+    }
+@endphp
 <style>
     #loanForm input,
     #loanForm select {
@@ -222,13 +233,7 @@
     const loanTabsNav = $('loanTabs');
     const loanTabsScrollRight = $('loanTabsScrollRight');
 
-    const requiredFields = @json(array_values(array_filter([
-        'full_name', 'address', 'phone', 'date_of_birth', 'id_type', 'id_number',
-        empty($draft['id_file_path'] ?? null) ? 'id_file' : null,
-        'co_borrower_name', 'co_borrower_address', 'co_borrower_phone', 'co_borrower_date_of_birth', 'co_borrower_id_type', 'co_borrower_id_number', 'co_borrower_id_file',
-        'second_co_borrower_name', 'second_co_borrower_address', 'second_co_borrower_phone', 'second_co_borrower_date_of_birth', 'second_co_borrower_id_type', 'second_co_borrower_id_number', 'second_co_borrower_id_file',
-        'purpose', 'purpose_other', 'amount', 'term', 'start_date', 'monthly_rate', 'calculation_type',
-    ])));
+    const requiredFields = @json($requiredLoanFields);
     requiredFields.forEach(name => {
         const label = document.querySelector(`#loanForm label[for="${name}"]`);
         if (!label || label.querySelector('.required-marker')) return;
