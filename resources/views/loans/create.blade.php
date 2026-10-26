@@ -101,7 +101,8 @@
             <nav id="loanTabs" class="flex min-w-0 overflow-x-auto border-b border-[#e3ebe5] pr-10" aria-label="New loan sections" role="tablist">
                 <button type="button" id="loanTabBorrower" role="tab" aria-controls="loanPanelBorrower" data-loan-tab="borrower" class="loan-form-tab shrink-0 border-b-2 border-[#17744a] px-4 py-3 text-sm font-medium text-[#17744a]">Borrower</button>
                 <button type="button" id="loanTabCoBorrower" role="tab" aria-controls="loanPanelCoBorrower" data-loan-tab="co_borrower" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Co-borrower</button>
-                <button type="button" id="loanTabSecondCoBorrower" role="tab" aria-controls="loanPanelSecondCoBorrower" data-loan-tab="second_co_borrower" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">2nd co-borrower</button>
+                @php($hasSavedSecondCoBorrower = old('second_co_borrower_enabled') || !empty(old('second_co_borrower_name', $draft['second_co_borrower_name'] ?? '')))
+                <button type="button" id="loanTabSecondCoBorrower" role="tab" aria-controls="loanPanelSecondCoBorrower" data-loan-tab="second_co_borrower" @if(!$hasSavedSecondCoBorrower) hidden @endif class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">2nd co-borrower</button>
                 <button type="button" id="loanTabTerms" role="tab" aria-controls="loanPanelTerms" data-loan-tab="terms" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Loan terms</button>
                 <button type="button" id="loanTabCharges" role="tab" aria-controls="loanPanelCharges" data-loan-tab="charges" class="loan-form-tab shrink-0 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-[#5b7567]">Charges</button>
             </nav>
@@ -115,10 +116,10 @@
                 <div class="mt-4 grid gap-4 sm:grid-cols-2">
                     @php($savedNameParts = preg_split('/\s+/', trim(old('full_name', $draft['full_name'] ?? '')), 3, PREG_SPLIT_NO_EMPTY) ?: [])
                     <input type="hidden" id="full_name" name="full_name" value="{{ old('full_name', $draft['full_name'] ?? '') }}">
-                    <div><label for="first_name" class="mb-1 block text-sm font-medium">First name</label><input id="first_name" name="first_name" type="text" required value="{{ old('first_name', $savedNameParts[0] ?? '') }}" autocomplete="given-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('first_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
-                    <div><label for="middle_name" class="mb-1 block text-sm font-medium">Middle name (optional)</label><input id="middle_name" name="middle_name" type="text" value="{{ old('middle_name', count($savedNameParts) > 2 ? $savedNameParts[1] : '') }}" autocomplete="additional-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('middle_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
-                    <div><label for="last_name" class="mb-1 block text-sm font-medium">Last name</label><input id="last_name" name="last_name" type="text" required value="{{ old('last_name', count($savedNameParts) > 1 ? end($savedNameParts) : '') }}" autocomplete="family-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('last_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
-                    <div><label for="suffix" class="mb-1 block text-sm font-medium">Suffix (optional)</label><select id="suffix" name="suffix" class="w-full rounded-lg border-gray-300"><option value="">None</option>@foreach (['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'] as $suffixOption)<option value="{{ $suffixOption }}" @selected(old('suffix') === $suffixOption)>{{ $suffixOption }}</option>@endforeach</select></div>
+                    <div><label for="first_name" class="mb-1 block text-sm font-medium">First name</label><input id="first_name" name="first_name" type="text" required value="{{ old('first_name', $draft['first_name'] ?? ($savedNameParts[0] ?? '')) }}" autocomplete="given-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('first_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="middle_name" class="mb-1 block text-sm font-medium">Middle name (optional; enter N/A if none)</label><input id="middle_name" name="middle_name" type="text" value="{{ old('middle_name', $draft['middle_name'] ?? (count($savedNameParts) > 2 ? $savedNameParts[1] : '')) }}" autocomplete="additional-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*|N/A|n/a" title="Use letters only, or N/A" class="w-full rounded-lg border-gray-300">@error('middle_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="last_name" class="mb-1 block text-sm font-medium">Last name</label><input id="last_name" name="last_name" type="text" required value="{{ old('last_name', $draft['last_name'] ?? (count($savedNameParts) > 1 ? end($savedNameParts) : '')) }}" autocomplete="family-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('last_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="suffix" class="mb-1 block text-sm font-medium">Suffix (optional)</label><select id="suffix" name="suffix" class="w-full rounded-lg border-gray-300"><option value="">None</option>@foreach (['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'] as $suffixOption)<option value="{{ $suffixOption }}" @selected(old('suffix', $draft['suffix'] ?? '') === $suffixOption)>{{ $suffixOption }}</option>@endforeach</select></div>
                     @error('full_name')<p class="sm:col-span-2 mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                     <div class="sm:col-span-2"><label for="address" class="mb-1 block text-sm font-medium">Complete address </label><input id="address" name="address" type="text" value="{{ old('address', $draft['address'] ?? '') }}" placeholder="Enter complete address" autocomplete="street-address" maxlength="255" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('address')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
                     <div><label for="phone" class="mb-1 block text-sm font-medium">Phone number</label><input id="phone" name="phone" type="tel" inputmode="numeric" value="{{ old('phone', $draft['phone'] ?? '') }}" placeholder="09123456789" autocomplete="tel" maxlength="11" pattern="[0-9]{11}" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('phone')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
@@ -151,11 +152,17 @@
                     'second_co_borrower' => 'Second co-borrower',
                 ] as $prefix => $participantLabel)
                     <section id="{{ $prefix === 'co_borrower' ? 'loanPanelCoBorrower' : 'loanPanelSecondCoBorrower' }}" role="tabpanel" aria-labelledby="{{ $prefix === 'co_borrower' ? 'loanTabCoBorrower' : 'loanTabSecondCoBorrower' }}" data-loan-tab-panel="{{ $prefix }}" class="rounded-xl border border-[#e3ebe5] bg-white p-6" hidden>
+                        @if ($prefix === 'second_co_borrower')<input type="hidden" id="second_co_borrower_enabled" name="second_co_borrower_enabled" value="{{ $hasSavedSecondCoBorrower ? '1' : '' }}">@endif
                         <h2 class="font-semibold">{{ $participantLabel }} information</h2>
                         <p class="mt-1 text-sm text-[#5b7567]">Enter details for this {{ strtolower($participantLabel) }}. You can leave it blank if there is no {{ strtolower($participantLabel) }}.</p>
                     <div class="mt-4 rounded-lg border border-[#eef3ef] p-4">
                         <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                            <div><label for="{{ $prefix }}_name" class="mb-1 block text-xs font-medium">Full name </label><input id="{{ $prefix }}_name" name="{{ $prefix }}_name" type="text" maxlength="150" value="{{ old($prefix.'_name', $draft[$prefix.'_name'] ?? '') }}" placeholder="Enter full name" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400"></div>
+                            @php($savedParticipantParts = preg_split('/\s+/', trim(old($prefix.'_name', $draft[$prefix.'_name'] ?? '')), 3, PREG_SPLIT_NO_EMPTY) ?: [])
+                            <input type="hidden" id="{{ $prefix }}_name" name="{{ $prefix }}_name" value="{{ old($prefix.'_name', $draft[$prefix.'_name'] ?? '') }}">
+                            <div><label for="{{ $prefix }}_first_name" class="mb-1 block text-xs font-medium">First name</label><input id="{{ $prefix }}_first_name" name="{{ $prefix }}_first_name" data-participant-prefix="{{ $prefix }}" type="text" maxlength="60" value="{{ old($prefix.'_first_name', $draft[$prefix.'_first_name'] ?? ($savedParticipantParts[0] ?? '')) }}" placeholder="First name" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error($prefix.'_first_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                            <div><label for="{{ $prefix }}_middle_name" class="mb-1 block text-xs font-medium">Middle name (optional; enter N/A if none)</label><input id="{{ $prefix }}_middle_name" name="{{ $prefix }}_middle_name" data-participant-prefix="{{ $prefix }}" type="text" maxlength="60" value="{{ old($prefix.'_middle_name', $draft[$prefix.'_middle_name'] ?? (count($savedParticipantParts) > 2 ? $savedParticipantParts[1] : '')) }}" placeholder="Middle name or N/A" pattern="[\p{L}][\p{L} '\-]*|N/A|n/a" title="Use letters only, or N/A" class="w-full rounded-lg border-gray-300"></div>
+                            <div><label for="{{ $prefix }}_last_name" class="mb-1 block text-xs font-medium">Last name</label><input id="{{ $prefix }}_last_name" name="{{ $prefix }}_last_name" data-participant-prefix="{{ $prefix }}" type="text" maxlength="60" value="{{ old($prefix.'_last_name', $draft[$prefix.'_last_name'] ?? (count($savedParticipantParts) > 1 ? end($savedParticipantParts) : '')) }}" placeholder="Last name" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error($prefix.'_last_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                            <div><label for="{{ $prefix }}_suffix" class="mb-1 block text-xs font-medium">Suffix (optional)</label><select id="{{ $prefix }}_suffix" name="{{ $prefix }}_suffix" data-participant-prefix="{{ $prefix }}" class="w-full rounded-lg border-gray-300"><option value="">None</option>@foreach (['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'] as $suffixOption)<option value="{{ $suffixOption }}" @selected(old($prefix.'_suffix', $draft[$prefix.'_suffix'] ?? '') === $suffixOption)>{{ $suffixOption }}</option>@endforeach</select></div>
                             <div><label for="{{ $prefix }}_address" class="mb-1 block text-xs font-medium">Complete address </label><input id="{{ $prefix }}_address" name="{{ $prefix }}_address" type="text" maxlength="255" value="{{ old($prefix.'_address', $draft[$prefix.'_address'] ?? '') }}" placeholder="Enter complete address" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400"></div>
                             <div><label for="{{ $prefix }}_date_of_birth" class="mb-1 block text-xs font-medium">Date of birth </label><input id="{{ $prefix }}_date_of_birth" name="{{ $prefix }}_date_of_birth" type="date" value="{{ old($prefix.'_date_of_birth', $draft[$prefix.'_date_of_birth'] ?? '') }}" class="w-full rounded-lg border-gray-300"></div>
                             <div><label for="{{ $prefix }}_phone" class="mb-1 block text-xs font-medium">Phone number </label><input id="{{ $prefix }}_phone" name="{{ $prefix }}_phone" type="tel" maxlength="40" value="{{ old($prefix.'_phone', $draft[$prefix.'_phone'] ?? '') }}" placeholder="Enter phone number" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400"></div>
@@ -165,6 +172,9 @@
                             <div><label for="{{ $prefix }}_id_file" class="mb-1 block text-xs font-medium">Upload valid ID </label><input id="{{ $prefix }}_id_file" name="{{ $prefix }}_id_file" type="file" accept=".jpg,.jpeg,.png,.pdf" @if(empty($draft[$prefix.'_id_file_path'])) @endif class="w-full rounded-lg border-gray-300 text-sm">@if(!empty($draft[$prefix.'_id_file_path']))<p class="mt-1 text-xs text-[#5b7567]">ID file attached to draft.</p>@endif<p class="mt-1 text-xs text-[#5b7567]">JPG, PNG, or PDF; maximum 5 MB.</p></div>
                         </div>
                     </div>
+                    @if ($prefix === 'co_borrower')
+                        <button type="button" id="addSecondCoBorrower" class="mt-4 rounded-lg border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#f4faf5]">+ Add 2nd co-borrower (optional)</button>
+                    @endif
                     </section>
                 @endforeach
 
@@ -225,7 +235,7 @@
     const $ = id => document.getElementById(id);
     const nameInputs = ['first_name', 'middle_name', 'last_name'].map($);
     nameInputs.forEach(input => input.addEventListener('input', () => {
-        input.value = input.value.replace(/[^\p{L} '\-]/gu, '');
+        input.value = input.id === 'middle_name' ? input.value.replace(/[^\p{L} '\-/]/gu, '') : input.value.replace(/[^\p{L} '\-]/gu, '');
         $('full_name').value = [
             $('first_name').value.trim(), $('middle_name').value.trim(),
             $('last_name').value.trim(), $('suffix').value,
@@ -240,15 +250,44 @@
     $('phone').addEventListener('input', event => {
         event.target.value = event.target.value.replace(/\D/g, '').slice(0, 11);
     });
+    function syncParticipantName(prefix) {
+        const first = $(`${prefix}_first_name`);
+        const middle = $(`${prefix}_middle_name`);
+        const last = $(`${prefix}_last_name`);
+        const suffix = $(`${prefix}_suffix`);
+        const middleValue = /^n\/a$/i.test(middle.value.trim()) ? '' : middle.value.trim();
+        const participantFields = Array.from($('loanForm').elements).filter(field => field.name.startsWith(`${prefix}_`) && field.type !== 'file' && field.type !== 'hidden' && field.name !== `${prefix}_name`);
+        const enabled = prefix === 'second_co_borrower' ? $('loanTabSecondCoBorrower').hidden === false : participantFields.some(field => field.value.trim() !== '');
+        first.required = enabled;
+        last.required = enabled;
+        $(`${prefix}_name`).value = [first.value.trim(), middleValue, last.value.trim(), suffix.value].filter(Boolean).join(' ');
+    }
+    ['co_borrower', 'second_co_borrower'].forEach(prefix => {
+        Array.from($('loanForm').elements).filter(field => field.dataset.participantPrefix === prefix || field.name.startsWith(`${prefix}_`)).forEach(field => {
+            field.addEventListener('input', () => {
+                if (field.dataset.participantPrefix && field.name.includes('_middle_name')) field.value = field.value.replace(/[^\p{L} '\-/]/gu, '');
+                else if (field.dataset.participantPrefix && field.name.includes('_first_name')) field.value = field.value.replace(/[^\p{L} '\-]/gu, '');
+                else if (field.dataset.participantPrefix && field.name.includes('_last_name')) field.value = field.value.replace(/[^\p{L} '\-]/gu, '');
+                syncParticipantName(prefix);
+            });
+            field.addEventListener('change', () => syncParticipantName(prefix));
+        });
+        syncParticipantName(prefix);
+    });
+    $('addSecondCoBorrower').addEventListener('click', () => {
+        $('second_co_borrower_enabled').value = '1';
+        $('loanTabSecondCoBorrower').hidden = false;
+        activateLoanTab('second_co_borrower');
+        syncParticipantName('second_co_borrower');
+        $('second_co_borrower_first_name').focus();
+    });
     const loanTabs = Array.from(document.querySelectorAll('[data-loan-tab]'));
     const loanPanels = Array.from(document.querySelectorAll('[data-loan-tab-panel]'));
     const loanTabsNav = $('loanTabs');
     const loanTabsScrollRight = $('loanTabsScrollRight');
 
     const requiredFields = [
-        'full_name', 'address', 'phone', 'date_of_birth', 'id_type', 'id_number',
-        'co_borrower_name', 'co_borrower_address', 'co_borrower_phone', 'co_borrower_date_of_birth', 'co_borrower_id_type', 'co_borrower_id_number', 'co_borrower_id_file',
-        'second_co_borrower_name', 'second_co_borrower_address', 'second_co_borrower_phone', 'second_co_borrower_date_of_birth', 'second_co_borrower_id_type', 'second_co_borrower_id_number', 'second_co_borrower_id_file',
+        'first_name', 'last_name', 'address', 'phone', 'date_of_birth', 'id_type', 'id_number',
         'purpose', 'purpose_other', 'amount', 'term', 'start_date', 'monthly_rate', 'calculation_type',
     ];
     if (@json(empty($draft['id_file_path'] ?? null))) requiredFields.push('id_file');
@@ -309,6 +348,7 @@
             : ['notarial_fee', 'inspection_fee', 'registration_fee', 'documentary_stamp_fee', 'service_fee'].includes(firstError) ? 'charges'
             : 'borrower';
         activateLoanTab(errorTab);
+        if (errorTab === 'second_co_borrower') $('loanTabSecondCoBorrower').hidden = false;
     }
     const purposeSelect = $('purpose');
     const otherPurposeWrap = $('otherPurposeWrap');

@@ -223,6 +223,10 @@ class LoanController extends Controller
         $rules = [
             'saved_draft_id' => ['nullable', 'integer'],
             'full_name' => ['nullable', 'string', 'max:150'],
+            'first_name' => ['nullable', 'string', 'max:60'],
+            'middle_name' => ['nullable', 'string', 'max:60'],
+            'last_name' => ['nullable', 'string', 'max:60'],
+            'suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:40'],
             'email' => ['nullable', 'email', 'max:150'],
@@ -231,6 +235,11 @@ class LoanController extends Controller
             'id_number' => ['nullable', 'string', 'max:100'],
             'id_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'co_borrower_name' => ['nullable', 'string', 'max:150'],
+            'co_borrower_first_name' => ['nullable', 'string', 'max:60'],
+            'co_borrower_middle_name' => ['nullable', 'string', 'max:60'],
+            'co_borrower_last_name' => ['nullable', 'string', 'max:60'],
+            'co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
+            'co_borrower_enabled' => ['nullable', 'in:1'],
             'co_borrower_address' => ['nullable', 'string', 'max:255'],
             'co_borrower_phone' => ['nullable', 'string', 'max:40'],
             'co_borrower_email' => ['nullable', 'email', 'max:150'],
@@ -239,6 +248,11 @@ class LoanController extends Controller
             'co_borrower_id_number' => ['nullable', 'string', 'max:100'],
             'co_borrower_id_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'second_co_borrower_name' => ['nullable', 'string', 'max:150'],
+            'second_co_borrower_first_name' => ['nullable', 'string', 'max:60'],
+            'second_co_borrower_middle_name' => ['nullable', 'string', 'max:60'],
+            'second_co_borrower_last_name' => ['nullable', 'string', 'max:60'],
+            'second_co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
+            'second_co_borrower_enabled' => ['nullable', 'in:1'],
             'second_co_borrower_address' => ['nullable', 'string', 'max:255'],
             'second_co_borrower_phone' => ['nullable', 'string', 'max:40'],
             'second_co_borrower_email' => ['nullable', 'email', 'max:150'],
@@ -260,7 +274,18 @@ class LoanController extends Controller
             'service_fee' => ['nullable', 'numeric', 'min:0'],
             'loan_terms' => ['nullable', 'string', 'max:3000'],
         ];
-        $data = Validator::make($request->all(), $rules)->validate();
+        $draftInput = $request->all();
+        foreach (['', 'co_borrower_', 'second_co_borrower_'] as $prefix) {
+            $middleName = trim($draftInput[$prefix.'middle_name'] ?? '');
+            $nameParts = [
+                trim($draftInput[$prefix.'first_name'] ?? ''),
+                strcasecmp($middleName, 'N/A') === 0 ? '' : $middleName,
+                trim($draftInput[$prefix.'last_name'] ?? ''),
+                trim($draftInput[$prefix.'suffix'] ?? ''),
+            ];
+            $draftInput[$prefix.($prefix === '' ? 'full_name' : 'name')] = implode(' ', array_filter($nameParts, fn ($part) => $part !== ''));
+        }
+        $data = Validator::make($draftInput, $rules)->validate();
         $savedDraft = null;
         if (! empty($data['saved_draft_id'])) {
             $savedDraft = LoanDraft::where('user_id', $request->user()->id)->findOrFail($data['saved_draft_id']);
@@ -470,6 +495,30 @@ class LoanController extends Controller
 
     private function validateLoanData(array $input): array
     {
+        $middleName = trim($input['middle_name'] ?? '');
+        if (strcasecmp($middleName, 'N/A') === 0) {
+            $input['middle_name'] = null;
+        }
+        foreach (['co_borrower', 'second_co_borrower'] as $prefix) {
+            $middleName = trim($input[$prefix.'_middle_name'] ?? '');
+            if (strcasecmp($middleName, 'N/A') === 0) {
+                $middleName = '';
+                $input[$prefix.'_middle_name'] = null;
+            }
+            $parts = array_filter([
+                trim($input[$prefix.'_first_name'] ?? ''),
+                $middleName,
+                trim($input[$prefix.'_last_name'] ?? ''),
+                trim($input[$prefix.'_suffix'] ?? ''),
+            ], fn ($part) => $part !== '');
+            $input[$prefix.'_name'] = implode(' ', $parts);
+
+            $participantFields = [$prefix.'_first_name', $prefix.'_middle_name', $prefix.'_last_name', $prefix.'_suffix', $prefix.'_address', $prefix.'_phone', $prefix.'_email', $prefix.'_date_of_birth', $prefix.'_id_type', $prefix.'_id_number'];
+            if ($prefix === 'second_co_borrower' ? ! empty($input['second_co_borrower_enabled']) : collect($participantFields)->contains(fn ($field) => filled($input[$field] ?? null))) {
+                $input[$prefix.'_enabled'] = '1';
+            }
+        }
+
         $nameParts = array_filter([
             trim($input['first_name'] ?? ''),
             trim($input['middle_name'] ?? ''),
@@ -481,7 +530,7 @@ class LoanController extends Controller
         $data = Validator::make($input, [
             'full_name' => ['required', 'string', 'max:150'],
             'first_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
-            'middle_name' => ['nullable', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
             'last_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
             'suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'address' => ['required', 'string', 'max:255'],
@@ -492,22 +541,32 @@ class LoanController extends Controller
             'id_number' => ['required', 'string', 'max:100'],
             'id_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'id_file_path' => ['nullable', 'string', 'max:255'],
-            'co_borrower_name' => ['required', 'string', 'max:150'],
-            'co_borrower_address' => ['required', 'string', 'max:255'],
-            'co_borrower_phone' => ['required', 'string', 'max:40'],
+            'co_borrower_name' => ['nullable', 'string', 'max:150'],
+            'co_borrower_first_name' => ['required_if:co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'co_borrower_middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
+            'co_borrower_last_name' => ['required_if:co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
+            'co_borrower_enabled' => ['nullable', 'in:1'],
+            'co_borrower_address' => ['required_if:co_borrower_enabled,1', 'string', 'max:255'],
+            'co_borrower_phone' => ['required_if:co_borrower_enabled,1', 'string', 'max:40'],
             'co_borrower_email' => ['nullable', 'email', 'max:150'],
-            'co_borrower_date_of_birth' => ['required', 'date', 'before:today'],
-            'co_borrower_id_type' => ['required', 'in:PhilID,Passport,Driver License,UMID,PRC ID,Postal ID,Voter ID,Other'],
-            'co_borrower_id_number' => ['required', 'string', 'max:100'],
+            'co_borrower_date_of_birth' => ['required_if:co_borrower_enabled,1', 'date', 'before:today'],
+            'co_borrower_id_type' => ['required_if:co_borrower_enabled,1', 'in:PhilID,Passport,Driver License,UMID,PRC ID,Postal ID,Voter ID,Other'],
+            'co_borrower_id_number' => ['required_if:co_borrower_enabled,1', 'string', 'max:100'],
             'co_borrower_id_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'co_borrower_id_file_path' => ['nullable', 'string', 'max:255'],
-            'second_co_borrower_name' => ['required', 'string', 'max:150'],
-            'second_co_borrower_address' => ['required', 'string', 'max:255'],
-            'second_co_borrower_phone' => ['required', 'string', 'max:40'],
+            'second_co_borrower_name' => ['nullable', 'string', 'max:150'],
+            'second_co_borrower_first_name' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'second_co_borrower_middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
+            'second_co_borrower_last_name' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'second_co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
+            'second_co_borrower_enabled' => ['nullable', 'in:1'],
+            'second_co_borrower_address' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:255'],
+            'second_co_borrower_phone' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:40'],
             'second_co_borrower_email' => ['nullable', 'email', 'max:150'],
-            'second_co_borrower_date_of_birth' => ['required', 'date', 'before:today'],
-            'second_co_borrower_id_type' => ['required', 'in:PhilID,Passport,Driver License,UMID,PRC ID,Postal ID,Voter ID,Other'],
-            'second_co_borrower_id_number' => ['required', 'string', 'max:100'],
+            'second_co_borrower_date_of_birth' => ['required_if:second_co_borrower_enabled,1', 'date', 'before:today'],
+            'second_co_borrower_id_type' => ['required_if:second_co_borrower_enabled,1', 'in:PhilID,Passport,Driver License,UMID,PRC ID,Postal ID,Voter ID,Other'],
+            'second_co_borrower_id_number' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:100'],
             'second_co_borrower_id_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'second_co_borrower_id_file_path' => ['nullable', 'string', 'max:255'],
             'loan_terms' => ['nullable', 'string', 'max:3000'],
@@ -530,7 +589,12 @@ class LoanController extends Controller
             'co_borrower_id_file' => ['co_borrower_id_file_path', 'Co-borrower ID file'],
             'second_co_borrower_id_file' => ['second_co_borrower_id_file_path', 'Second co-borrower ID file'],
         ] as $fileField => [$pathField, $label]) {
-            $requiresFile = true;
+            $participantName = match ($fileField) {
+                'co_borrower_id_file' => 'co_borrower_name',
+                'second_co_borrower_id_file' => 'second_co_borrower_name',
+                default => null,
+            };
+            $requiresFile = $participantName === null || filled($data[$participantName] ?? null);
             if ($requiresFile && empty($data[$fileField]) && empty($data[$pathField])) {
                 throw ValidationException::withMessages([$fileField => $label.' is required.']);
             }
