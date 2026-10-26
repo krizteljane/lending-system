@@ -1,5 +1,5 @@
 @extends('websnippet')
-@section('title', 'Loan Agreement')
+@section('title', 'Loan Contract')
 
 @section('content')
 <style>
@@ -64,7 +64,7 @@
                 <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo">
                 <div><p class="agreement-brand">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Agriculture Cooperative</h2><p class="agreement-tagline">Purok 1, Banoyo, San Luis, Batangas</p></div>
             </div>
-            <div class="agreement-title"><h3>LOAN AGREEMENT</h3><p class="mt-1 text-xs text-gray-600">Agreement reference: <strong>{{ $loan->reference }}</strong></p></div>
+            <div class="agreement-title"><h3>LOAN CONTRACT</h3><p class="mt-1 text-xs text-gray-600">Contract reference: <strong>{{ $loan->reference }}</strong></p></div>
         </header>
 
         <p class="mt-4">Prepared on <strong>{{ $loan->release_date->format('F j, Y') }}</strong> for the loan parties listed below.</p>

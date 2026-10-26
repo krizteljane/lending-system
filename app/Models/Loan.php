@@ -45,4 +45,9 @@ class Loan extends Model
     {
         return $this->hasMany(LoanPayment::class);
     }
+
+    public function paymentReminders(): HasMany
+    {
+        return $this->hasMany(PaymentReminder::class);
+    }
 }

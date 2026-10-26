@@ -5,7 +5,7 @@
     <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
             <h1 class="text-2xl font-semibold">Contracts</h1>
-            <p class="mt-1 text-sm text-[#5b7567]">View and print each borrower’s loan agreement.</p>
+            <p class="mt-1 text-sm text-[#5b7567]">View and print each borrower’s loan contract. Loan disclosures are available from the Loans page.</p>
         </div>
         <a href="{{ route('contracts.blank') }}" class="rounded-lg border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#17744a]/5">Blank contract / Save as PDF</a>
     </div>
@@ -25,7 +25,7 @@
                                 <td class="px-5 py-4">₱{{ number_format((float) $loan->principal, 2) }}</td>
                                 <td class="px-5 py-4">{{ $loan->term_months }} months</td>
                                 <td class="px-5 py-4">{{ $loan->release_date->format('M j, Y') }}</td>
-                                <td class="px-5 py-4 text-right"><a href="{{ route('loans.contract', $loan) }}" class="rounded-md bg-[#17744a] px-3 py-2 text-xs font-medium text-white hover:bg-[#0f5f3b]">View agreement</a></td>
+                                <td class="px-5 py-4 text-right"><a href="{{ route('loans.contract', $loan) }}" class="rounded-md bg-[#17744a] px-3 py-2 text-xs font-medium text-white hover:bg-[#0f5f3b]">View contract</a></td>
                             </tr>
                         @endforeach
                     </tbody>

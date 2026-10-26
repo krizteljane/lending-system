@@ -22,7 +22,7 @@ class PaymentReceiptMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Payment receipt for loan '.$this->loanReference,
+            subject: 'Payment received | Loan '.$this->loanReference,
         );
     }
 
