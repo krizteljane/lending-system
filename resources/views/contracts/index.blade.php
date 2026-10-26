@@ -45,7 +45,7 @@
             <div class="sm:col-span-2"><dt class="text-xs text-[#7a9186]">Address</dt><dd id="borrowerInfoAddress" class="mt-1 font-medium text-[#0f3d2b]"></dd></div>
             <div><dt class="text-xs text-[#7a9186]">Date of birth</dt><dd id="borrowerInfoDob" class="mt-1 font-medium text-[#0f3d2b]"></dd></div>
             <div><dt class="text-xs text-[#7a9186]">Valid ID</dt><dd class="mt-1 font-medium text-[#0f3d2b]"><span id="borrowerInfoId"></span> · <span id="borrowerInfoIdNumber"></span></dd></div>
-            <div id="borrowerInfoIdFileRow" class="hidden sm:col-span-2"><a id="borrowerInfoIdFile" class="text-[#17744a] underline" href="#">View ID copy</a></div>
+            <div id="borrowerInfoIdFileRow" class="hidden sm:col-span-2"><a id="borrowerInfoIdFile" class="text-[#17744a] underline" href="#" target="_blank" rel="noopener">View ID copy</a></div>
         </dl>
     </dialog>
     <script>

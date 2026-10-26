@@ -76,7 +76,7 @@
         </dl>
         <dl class="borrower-contact-grid border-t border-[#eef3ef] pt-3 text-sm">
             <div><dt class="text-xs font-medium text-[#7a9186]">Date of birth</dt><dd class="mt-0.5 font-medium text-[#0f3d2b]">{{ $borrower->date_of_birth?->format('M j, Y') ?: 'Not provided' }}</dd></div>
-            <div><dt class="text-xs font-medium text-[#7a9186]">Valid ID</dt><dd class="mt-0.5 font-medium text-[#0f3d2b]">{{ $borrower->id_type ?: 'Not provided' }} · {{ $borrower->id_number ?: 'Not provided' }} @if($borrower->id_file_path)<a href="{{ route('borrowers.identity', $borrower) }}" class="ml-2 text-[#17744a] underline">View ID copy</a>@endif</dd></div>
+            <div><dt class="text-xs font-medium text-[#7a9186]">Valid ID</dt><dd class="mt-0.5 font-medium text-[#0f3d2b]">{{ $borrower->id_type ?: 'Not provided' }} · {{ $borrower->id_number ?: 'Not provided' }} @if($borrower->id_file_path)<a href="{{ route('borrowers.identity', $borrower) }}" target="_blank" rel="noopener" class="ml-2 text-[#17744a] underline">View ID copy</a>@endif</dd></div>
         </dl>
     </section>
 

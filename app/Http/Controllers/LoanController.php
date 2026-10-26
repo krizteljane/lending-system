@@ -761,7 +761,7 @@ class LoanController extends Controller
     {
         abort_unless($borrower->id_file_path && Storage::disk('local')->exists($borrower->id_file_path), 404);
 
-        return Storage::disk('local')->download($borrower->id_file_path);
+        return Storage::disk('local')->response($borrower->id_file_path, null, [], 'inline');
     }
 
     public function downloadLoanParticipantId(Loan $loan, string $participant): StreamedResponse
@@ -773,7 +773,7 @@ class LoanController extends Controller
         };
         abort_unless($path && Storage::disk('local')->exists($path), 404);
 
-        return Storage::disk('local')->download($path);
+        return Storage::disk('local')->response($path, null, [], 'inline');
     }
 
     public function contracts(): View
