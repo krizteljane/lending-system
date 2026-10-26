@@ -38,7 +38,7 @@
         </div>
         <dl class="divide-y divide-[#eef3ef]">
             <div class="flex flex-wrap items-center justify-between gap-2 px-6 py-4"><dt class="text-sm text-slate-600">Website name</dt><dd class="text-sm font-medium text-slate-900">SALUAG</dd></div>
-            <div class="flex flex-wrap items-center justify-between gap-2 px-6 py-4"><dt class="text-sm text-slate-600">Organization</dt><dd class="text-sm font-medium text-slate-900">San Luis Agri-Ventures Cooperative</dd></div>
+            <div class="flex flex-wrap items-center justify-between gap-2 px-6 py-4"><dt class="text-sm text-slate-600">Organization</dt><dd class="text-sm font-medium text-slate-900">San Luis Agri-Ventures Agriculture Cooperative</dd></div>
             <div class="flex flex-wrap items-center justify-between gap-2 px-6 py-4"><dt class="text-sm text-slate-600">Time zone</dt><dd class="text-sm font-medium text-slate-900">Asia/Manila (UTC+08:00)</dd></div>
             <div class="flex flex-wrap items-center justify-between gap-2 px-6 py-4"><dt class="text-sm text-slate-600">Currency</dt><dd class="text-sm font-medium text-slate-900">Philippine peso (PHP)</dd></div>
         </dl>

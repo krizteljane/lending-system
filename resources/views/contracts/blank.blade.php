@@ -41,7 +41,7 @@
         </header>
 
         <h2>1. Parties</h2>
-        <p>This Loan Agreement is between San Luis Agri-Ventures Cooperative (the “Lender”) and the following borrower:</p>
+        <p>This Loan Agreement is between San Luis Agri-Ventures Agriculture Cooperative (the “Lender”) and the following borrower:</p>
         <p>Borrower full name: <span class="blank-line long"></span></p>
         <p>Address: <span class="blank-line long"></span></p>
         <p>Phone / email: <span class="blank-line long"></span></p>

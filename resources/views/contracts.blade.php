@@ -83,13 +83,13 @@
         @php($remainingScheduleRows = array_slice($loan->schedule, 12))
         <article class="disclosure-sheet rounded-xl border border-[#d4ddd6] bg-white p-5 text-sm text-gray-900 shadow-sm sm:p-8 print:border-0 print:shadow-none">
             <header class="border-b border-gray-300 pb-4">
-                <div class="disclosure-masthead"><img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo"><div><p class="disclosure-brand">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Cooperative</h2><p class="disclosure-tagline">Purok 1, Banoyo, San Luis, Batangas</p></div></div>
+                <div class="disclosure-masthead"><img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo"><div><p class="disclosure-brand">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Agriculture Cooperative</h2><p class="disclosure-tagline">Purok 1, Banoyo, San Luis, Batangas</p></div></div>
                 <div class="disclosure-title"><h3>DISCLOSURE STATEMENT OF LOAN / CREDIT TRANSACTION</h3><p class="mt-1 text-xs text-gray-600">As required under R.A. 3765, Truth in Lending Act (Appendix to Subsec. 4305 Q.7)</p><p class="text-xs">Loan reference: <strong>{{ $isPreview ? 'Assigned after approval' : $loan->reference }}</strong></p></div>
             </header>
             <p class="mt-4">Prepared on <strong>{{ $loan->release_date->format('F j, Y') }}</strong> for the loan parties listed below.</p>
             <div class="disclosure-party-grid">
                 <div class="disclosure-party"><p class="disclosure-party-label">Borrower</p><p class="mt-1 font-semibold">{{ $loan->borrower->full_name }}</p><p class="text-xs">{{ $loan->borrower->address }}</p><p class="text-xs">Phone: {{ $loan->borrower->phone ?: '—' }} · Email: {{ $loan->borrower->email ?: '—' }}</p><p class="text-xs">Date of birth: {{ $loan->borrower->date_of_birth?->format('M j, Y') ?: '—' }}</p><p class="text-xs">ID: {{ $loan->borrower->id_type ?: '—' }} · {{ $loan->borrower->id_number ?: '—' }}{{ $loan->borrower->id_file_path ? ' (copy on file)' : '' }}</p></div>
-                <div class="disclosure-party"><p class="disclosure-party-label">Lender</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Cooperative</p><p class="text-xs">Purok 1, Banoyo, San Luis, Batangas</p></div>
+                <div class="disclosure-party"><p class="disclosure-party-label">Lender</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Agriculture Cooperative</p><p class="text-xs">Purok 1, Banoyo, San Luis, Batangas</p></div>
             </div>
             @if ($loan->co_borrower_name || $loan->second_co_borrower_name)
                 <div class="disclosure-party-grid mt-2">
@@ -151,7 +151,7 @@
             @endif
             <p class="late-charge-note mt-3 text-xs text-gray-600">A late charge applies to each unpaid installment after it is 5 days overdue. The charge is 1.25% of original principal for the first late month and each additional 30-day period it remains unpaid.</p>
             <div class="signature-block mt-12 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
-                <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">San Luis Agri-Ventures Cooperative</p><p class="text-xs italic">Released by</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
+                <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">San Luis Agri-Ventures Agriculture Cooperative</p><p class="text-xs italic">Released by</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 <div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->borrower->full_name }}</p><p class="text-xs italic">Borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>
                 @if ($loan->co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->co_borrower_name }}</p><p class="text-xs italic">Co-borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>@endif
                 @if ($loan->second_co_borrower_name)<div class="border-t border-gray-500 pt-2 text-center"><p class="font-medium">{{ $loan->second_co_borrower_name }}</p><p class="text-xs italic">Second co-borrower signature</p><p class="mt-3 text-left text-xs">Date: ____________________</p></div>@endif

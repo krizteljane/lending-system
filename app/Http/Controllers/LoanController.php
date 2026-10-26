@@ -6,11 +6,13 @@ use App\Models\Borrower;
 use App\Models\Loan;
 use App\Models\LoanDraft;
 use App\Models\LoanPayment;
+use App\Mail\PaymentReceiptMail;
 use App\Services\LoanCalculator;
 use App\Services\LoanAccounting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
@@ -804,18 +806,40 @@ class LoanController extends Controller
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'string', 'max:255'],
         ]);
-        $loan = DB::transaction(function () use ($data) {
+        $payment = DB::transaction(function () use ($data) {
             $loan = Loan::whereKey($data['loan_id'])->lockForUpdate()->firstOrFail();
             $remaining = $this->accounting->summary($loan)['remaining_due'];
             if (round((float) $data['amount'], 2) > $remaining) {
                 throw ValidationException::withMessages(['amount' => 'Payment cannot be greater than the remaining loan balance (₱'.number_format(max(0, $remaining), 2).').']);
             }
 
-            $loan->payments()->create($data);
-
-            return $loan;
+            return $loan->payments()->create($data);
         });
-        return redirect()->route('payments.index', ['loan_id' => $loan->id])->with('success', 'Payment recorded.');
+
+        $payment->load('loan.borrower');
+        $borrower = $payment->loan->borrower;
+        $message = 'Payment recorded.';
+
+        if (! $borrower?->email) {
+            $message .= ' No receipt was sent because the borrower has no email address on file.';
+        } elseif (config('mail.default') === 'log') {
+            $message .= ' No receipt was sent because email delivery is not configured.';
+        } else {
+            try {
+                Mail::to($borrower->email)->send(new PaymentReceiptMail(
+                    borrowerName: $borrower->full_name,
+                    loanReference: $payment->loan->reference,
+                    amount: number_format((float) $payment->amount, 2),
+                    paymentDate: $payment->paid_at->format('F j, Y'),
+                ));
+                $message .= ' A receipt was emailed to the borrower.';
+            } catch (\Throwable $exception) {
+                report($exception);
+                $message .= ' The payment was saved, but its email receipt could not be sent.';
+            }
+        }
+
+        return redirect()->route('payments.index', ['loan_id' => $payment->loan_id])->with('success', $message);
     }
 
     public function borrowers(): View

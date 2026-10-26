@@ -62,7 +62,7 @@
         <header class="border-b border-gray-300 pb-4">
             <div class="agreement-masthead">
                 <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo">
-                <div><p class="agreement-brand">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Cooperative</h2><p class="agreement-tagline">Purok 1, Banoyo, San Luis, Batangas</p></div>
+                <div><p class="agreement-brand">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Agriculture Cooperative</h2><p class="agreement-tagline">Purok 1, Banoyo, San Luis, Batangas</p></div>
             </div>
             <div class="agreement-title"><h3>LOAN AGREEMENT</h3><p class="mt-1 text-xs text-gray-600">Agreement reference: <strong>{{ $loan->reference }}</strong></p></div>
         </header>
@@ -70,7 +70,7 @@
         <p class="mt-4">Prepared on <strong>{{ $loan->release_date->format('F j, Y') }}</strong> for the loan parties listed below.</p>
         <div class="agreement-parties">
             <div class="agreement-party"><p class="agreement-party-label">Borrower</p><p class="mt-1 font-semibold">{{ $loan->borrower->full_name }}</p><p class="text-xs">{{ $loan->borrower->address }}</p><p class="mt-1 text-xs">Phone: {{ $loan->borrower->phone ?: '—' }} · Email: {{ $loan->borrower->email ?: '—' }}</p><p class="text-xs">Date of birth: {{ $loan->borrower->date_of_birth?->format('M j, Y') ?: '—' }}</p><p class="text-xs">ID: {{ $loan->borrower->id_type }} · {{ $loan->borrower->id_number }}</p>@if($loan->borrower->id_file_path)<a href="{{ route('borrowers.identity', $loan->borrower) }}" target="_blank" rel="noopener" class="agreement-private-link text-xs font-medium text-[#17744a] underline print:hidden">View private ID copy</a><p class="hidden print:block text-xs">ID copy held in the loan file.</p>@endif</div>
-            <div class="agreement-party"><p class="agreement-party-label">Lender</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Cooperative</p><p class="text-xs">Purok 1, Banoyo, San Luis, Batangas</p></div>
+            <div class="agreement-party"><p class="agreement-party-label">Lender</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Agriculture Cooperative</p><p class="text-xs">Purok 1, Banoyo, San Luis, Batangas</p></div>
         </div>
         @if ($loan->co_borrower_name || $loan->second_co_borrower_name)
             <div class="agreement-parties mt-2">
@@ -144,7 +144,7 @@
         <p class="mt-5">By signing below, the parties confirm that they have reviewed and agree to the loan amount, monthly interest percentage and method, repayment dates, charges, penalties, and any additional terms written in this agreement.</p>
         <div class="agreement-signatures mt-12 grid gap-8 sm:grid-cols-2 sm:gap-12">
             <div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">{{ $loan->borrower->full_name }}</p><p class="text-xs">Borrower signature over printed name</p><p class="mt-4 text-left text-xs">Date: ____________________</p></div>
-            <div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">San Luis Agri-Ventures Cooperative</p><p class="text-xs">Authorized representative signature</p><p class="mt-3 text-left text-xs">Name: ____________________</p><p class="mt-2 text-left text-xs">Date: ____________________</p></div>
+            <div class="border-t border-gray-500 pt-2 text-center"><p class="font-semibold">San Luis Agri-Ventures Agriculture Cooperative</p><p class="text-xs">Authorized representative signature</p><p class="mt-3 text-left text-xs">Name: ____________________</p><p class="mt-2 text-left text-xs">Date: ____________________</p></div>
         </div>
         @if ($loan->co_borrower_name || $loan->second_co_borrower_name)
             <div class="agreement-signatures mt-8 grid gap-8 sm:grid-cols-2 sm:gap-12">

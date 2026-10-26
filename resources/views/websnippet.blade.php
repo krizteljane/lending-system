@@ -32,7 +32,7 @@
         <div class="flex items-center justify-between gap-2 px-5 py-6">
             <a href="{{ route('dashboard') }}" class="flex min-w-0 items-center gap-3">
                 <img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo" class="h-10 w-10 shrink-0 rounded-full bg-white object-contain p-0.5">
-                <span class="text-sm font-semibold leading-tight">San Luis Agri-Ventures Cooperative</span>
+                <span class="text-sm font-semibold leading-tight">San Luis Agri-Ventures Agriculture Cooperative</span>
             </a>
             <button id="closeMenuBtn" type="button" class="rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white lg:hidden" aria-label="Close menu">
                 <span aria-hidden="true" class="text-2xl leading-none">&times;</span>
@@ -189,7 +189,7 @@
                 <button type="button" id="loginWelcomeClose" aria-label="Close welcome message" class="rounded-md px-2 py-1 text-xl leading-none text-[#5b7567] hover:bg-[#f3f7f4]">&times;</button>
             </div>
             <div class="px-5 py-5">
-                <p class="text-sm leading-6 text-[#5b7567]">Welcome to San Luis Agri-Ventures Cooperative. You are signed in and ready to manage borrower records, loans, and payments.</p>
+                <p class="text-sm leading-6 text-[#5b7567]">Welcome to San Luis Agri-Ventures Agriculture Cooperative. You are signed in and ready to manage borrower records, loans, and payments.</p>
             </div>
         </dialog>
         <script>

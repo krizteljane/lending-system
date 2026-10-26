@@ -78,7 +78,7 @@
                     <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-12 w-12 shrink-0 rounded-full bg-white object-contain p-0 sm:h-16 sm:w-16">
                     <div class="leading-tight">
                         <div class="brand-name text-xl font-semibold leading-none sm:text-2xl">SALUAG</div>
-                        <div class="brand-description text-xs text-white/70 sm:text-sm">San Luis Agri-Ventures Cooperative</div>
+                        <div class="brand-description text-xs text-white/70 sm:text-sm">San Luis Agri-Ventures Agriculture Cooperative</div>
                         <div class="brand-description text-xs leading-tight text-white/75 sm:text-sm">Lending Management System</div>
                     </div>
                 </div>
@@ -157,7 +157,7 @@
                         <img src="{{ asset('images/logo.jpg') }}" alt="Saluag logo" class="h-16 w-16 rounded-full bg-white object-contain p-0">
                         <div class="leading-tight">
                             <div class="text-3xl font-semibold leading-none text-[#0f4a33]">SALUAG</div>
-                            <div class="text-xs leading-tight text-[#4a6b5a]">San Luis Agri-Ventures Cooperative</div>
+                            <div class="text-xs leading-tight text-[#4a6b5a]">San Luis Agri-Ventures Agriculture Cooperative</div>
                             <div class="text-sm leading-tight text-[#4a6b5a]">Admin Portal</div>
                         </div>
                     </div>

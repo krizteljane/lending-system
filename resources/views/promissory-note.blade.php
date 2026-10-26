@@ -33,14 +33,14 @@
 
     <article class="note-sheet rounded-xl border border-[#d4ddd6] bg-white p-4 text-sm leading-relaxed text-gray-900 shadow-sm sm:p-10">
         <header class="border-b border-gray-400 pb-4 text-center">
-            <div class="note-masthead justify-center"><img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo"><div class="text-left"><p class="font-bold tracking-wide text-[#0f5b40]">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Cooperative</h2><p class="text-xs text-gray-600">Purok 1, Banoyo, San Luis, Batangas</p></div></div>
+            <div class="note-masthead justify-center"><img src="{{ asset('images/logo.jpg') }}" alt="SALUAG logo"><div class="text-left"><p class="font-bold tracking-wide text-[#0f5b40]">SALUAG</p><h2 class="text-sm font-semibold">San Luis Agri-Ventures Agriculture Cooperative</h2><p class="text-xs text-gray-600">Purok 1, Banoyo, San Luis, Batangas</p></div></div>
             <h2 class="mt-5 text-xl font-bold tracking-wide">PROMISSORY NOTE</h2>
             <p class="mt-1 text-xs text-gray-600">Loan reference: <strong>{{ $loan->reference }}</strong></p>
         </header>
 
         <div class="mt-5 grid gap-3 sm:grid-cols-2">
             <section class="note-party"><p class="note-label">Borrower / Maker</p><p class="mt-1 font-semibold">{{ $loan->borrower->full_name }}</p><p>{{ $loan->borrower->address }}</p><p class="mt-1 text-xs">Phone: {{ $loan->borrower->phone ?: '—' }} · Email: {{ $loan->borrower->email ?: '—' }}</p><p class="text-xs">Date of birth: {{ $loan->borrower->date_of_birth?->format('M j, Y') ?: '—' }}</p><p class="text-xs">ID: {{ $loan->borrower->id_type ?: '—' }} · {{ $loan->borrower->id_number ?: '—' }}</p></section>
-            <section class="note-party"><p class="note-label">Lender / Payee</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Cooperative</p><p>Purok 1, Banoyo, San Luis, Batangas</p></section>
+            <section class="note-party"><p class="note-label">Lender / Payee</p><p class="mt-1 font-semibold">San Luis Agri-Ventures Agriculture Cooperative</p><p>Purok 1, Banoyo, San Luis, Batangas</p></section>
             @if ($loan->co_borrower_name)<section class="note-party"><p class="note-label">Co-borrower</p><p class="mt-1 font-semibold">{{ $loan->co_borrower_name }}</p><p>{{ $loan->co_borrower_address }}</p><p class="text-xs">Phone: {{ $loan->co_borrower_phone ?: '—' }} · Email: {{ $loan->co_borrower_email ?: '—' }}</p><p class="text-xs">Date of birth: {{ $loan->co_borrower_date_of_birth?->format('M j, Y') ?: '—' }}</p><p class="text-xs">ID: {{ $loan->co_borrower_id_type ?: '—' }} · {{ $loan->co_borrower_id_number ?: '—' }}</p></section>@endif
             @if ($loan->second_co_borrower_name)<section class="note-party"><p class="note-label">Second co-borrower</p><p class="mt-1 font-semibold">{{ $loan->second_co_borrower_name }}</p><p>{{ $loan->second_co_borrower_address }}</p><p class="text-xs">Phone: {{ $loan->second_co_borrower_phone ?: '—' }} · Email: {{ $loan->second_co_borrower_email ?: '—' }}</p><p class="text-xs">Date of birth: {{ $loan->second_co_borrower_date_of_birth?->format('M j, Y') ?: '—' }}</p><p class="text-xs">ID: {{ $loan->second_co_borrower_id_type ?: '—' }} · {{ $loan->second_co_borrower_id_number ?: '—' }}</p></section>@endif
         </div>
