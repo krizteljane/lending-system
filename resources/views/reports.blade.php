@@ -26,7 +26,10 @@
             <h1 class="text-2xl font-semibold text-[#0f3d2b]">Reports</h1>
             <p class="mt-1 text-sm text-slate-600">Review collections, balances, overdue installments, and borrower payment history.</p>
         </div>
-        <button type="button" class="password-confirm-trigger print:hidden rounded-lg border border-[#0f4a33] px-4 py-2 text-sm font-medium text-[#0f4a33] hover:bg-[#0f4a33]/5" data-confirm-action="print">Print report</button>
+        <div class="flex flex-wrap gap-2 print:hidden">
+            <a href="{{ route('loans.export.csv') }}" class="rounded-lg border border-[#0f4a33] px-4 py-2 text-sm font-medium text-[#0f4a33] hover:bg-[#0f4a33]/5">Download current data (CSV)</a>
+            <button type="button" class="password-confirm-trigger rounded-lg border border-[#0f4a33] px-4 py-2 text-sm font-medium text-[#0f4a33] hover:bg-[#0f4a33]/5" data-confirm-action="print">Print report</button>
+        </div>
     </div>
 
     <nav class="mb-5 flex gap-2 overflow-x-auto" aria-label="Report types">

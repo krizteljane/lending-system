@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/payments', [LoanController::class, 'payments'])->name('payments.index');
     Route::post('/payments', [LoanController::class, 'recordPayment'])->name('payments.store');
     Route::get('/contracts', [LoanController::class, 'contracts'])->name('contracts.index');
+    Route::view('/contracts/blank', 'contracts.blank')->name('contracts.blank');
     Route::get('/reports', [LoanController::class, 'reports'])->name('reports.index');
+    Route::get('/exports/loans.csv', [LoanController::class, 'exportLoansCsv'])->name('loans.export.csv');
     Route::view('/settings', 'settings')->name('settings');
     Route::view('/profile', 'profile')->name('profile');
     Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');

@@ -199,6 +199,57 @@ class LoanController extends Controller
         ));
     }
 
+    public function exportLoansCsv(): StreamedResponse
+    {
+        return response()->streamDownload(function () {
+            $output = fopen('php://output', 'w');
+            fwrite($output, "\xEF\xBB\xBF");
+            fputcsv($output, [
+                'Loan reference', 'Status', 'Borrower name', 'Borrower address', 'Borrower phone', 'Borrower email',
+                'Borrower date of birth', 'Co-borrower name', 'Co-borrower address', 'Co-borrower phone',
+                'Co-borrower email', 'Second co-borrower name', 'Second co-borrower address',
+                'Second co-borrower phone', 'Second co-borrower email', 'Release date', 'Purpose', 'Principal',
+                'Monthly rate', 'Term (months)', 'Total interest', 'Total charges', 'Net proceeds', 'Total payments',
+                'Payment date', 'Payment amount', 'Payment note',
+            ], ',', '"', '');
+
+            $safeText = static function ($value): string {
+                $value = (string) ($value ?? '');
+
+                return preg_match('/^[\s\x00-\x1F]*[=+@\-]/u', $value) ? "'".$value : $value;
+            };
+
+            Loan::with(['borrower', 'payments'])->chunkById(100, function ($loans) use ($output, $safeText) {
+                foreach ($loans as $loan) {
+                    $borrower = $loan->borrower;
+                    $payments = $loan->payments;
+                    $paymentRows = $payments->isEmpty() ? [null] : $payments;
+
+                    foreach ($paymentRows as $payment) {
+                        fputcsv($output, [
+                            $safeText($loan->reference), $safeText($loan->status), $safeText($borrower?->full_name),
+                            $safeText($borrower?->address), $safeText($borrower?->phone), $safeText($borrower?->email),
+                            $borrower?->date_of_birth?->format('Y-m-d'), $safeText($loan->co_borrower_name),
+                            $safeText($loan->co_borrower_address), $safeText($loan->co_borrower_phone),
+                            $safeText($loan->co_borrower_email), $safeText($loan->second_co_borrower_name),
+                            $safeText($loan->second_co_borrower_address), $safeText($loan->second_co_borrower_phone),
+                            $safeText($loan->second_co_borrower_email), $loan->release_date?->format('Y-m-d'),
+                            $safeText($loan->purpose), $loan->principal, $loan->monthly_rate, $loan->term_months,
+                            $loan->total_interest, $loan->total_charges, $loan->net_proceeds, $loan->total_payments,
+                            $payment?->paid_at?->format('Y-m-d'), $payment?->amount, $safeText($payment?->note),
+                        ], ',', '"', '');
+                    }
+                }
+            });
+
+            fclose($output);
+        }, 'loan-records-'.now()->format('Y-m-d').'.csv', [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Cache-Control' => 'no-store, private',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
+    }
+
     public function create(Request $request): View
     {
         $savedDraft = null;

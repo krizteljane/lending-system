@@ -2,9 +2,12 @@
 @section('title', 'Contracts')
 
 @section('content')
-    <div class="mb-6">
-        <h1 class="text-2xl font-semibold">Contracts</h1>
-        <p class="mt-1 text-sm text-[#5b7567]">View and print each borrower’s loan agreement.</p>
+    <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold">Contracts</h1>
+            <p class="mt-1 text-sm text-[#5b7567]">View and print each borrower’s loan agreement.</p>
+        </div>
+        <a href="{{ route('contracts.blank') }}" class="rounded-lg border border-[#17744a] px-4 py-2 text-sm font-medium text-[#17744a] hover:bg-[#17744a]/5">Blank contract / Save as PDF</a>
     </div>
 
     <section class="overflow-hidden rounded-xl border border-[#e3ebe5] bg-white">
