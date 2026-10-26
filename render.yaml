@@ -4,6 +4,7 @@ services:
     runtime: docker
     plan: free
     region: singapore
+    autoDeployTrigger: commit
     healthCheckPath: /up
     envVars:
       - key: APP_NAME
