@@ -113,10 +113,16 @@
             <section id="loanPanelBorrower" role="tabpanel" aria-labelledby="loanTabBorrower" data-loan-tab-panel="borrower" class="rounded-xl border border-[#e3ebe5] bg-white p-6">
                 <h2 class="font-semibold">Borrower information</h2>
                 <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div class="sm:col-span-2"><label for="full_name" class="mb-1 block text-sm font-medium">Borrower full name </label><input id="full_name" name="full_name" type="text" value="{{ old('full_name', $draft['full_name'] ?? '') }}" placeholder="Enter name" autocomplete="name" maxlength="150" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('full_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    @php($savedNameParts = preg_split('/\s+/', trim(old('full_name', $draft['full_name'] ?? '')), 3, PREG_SPLIT_NO_EMPTY) ?: [])
+                    <input type="hidden" id="full_name" name="full_name" value="{{ old('full_name', $draft['full_name'] ?? '') }}">
+                    <div><label for="first_name" class="mb-1 block text-sm font-medium">First name</label><input id="first_name" name="first_name" type="text" required value="{{ old('first_name', $savedNameParts[0] ?? '') }}" autocomplete="given-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('first_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="middle_name" class="mb-1 block text-sm font-medium">Middle name (optional)</label><input id="middle_name" name="middle_name" type="text" value="{{ old('middle_name', count($savedNameParts) > 2 ? $savedNameParts[1] : '') }}" autocomplete="additional-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('middle_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="last_name" class="mb-1 block text-sm font-medium">Last name</label><input id="last_name" name="last_name" type="text" required value="{{ old('last_name', count($savedNameParts) > 1 ? end($savedNameParts) : '') }}" autocomplete="family-name" maxlength="60" pattern="[\p{L}][\p{L} '\-]*" title="Use letters only" class="w-full rounded-lg border-gray-300">@error('last_name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="suffix" class="mb-1 block text-sm font-medium">Suffix (optional)</label><select id="suffix" name="suffix" class="w-full rounded-lg border-gray-300"><option value="">None</option>@foreach (['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'] as $suffixOption)<option value="{{ $suffixOption }}" @selected(old('suffix') === $suffixOption)>{{ $suffixOption }}</option>@endforeach</select></div>
+                    @error('full_name')<p class="sm:col-span-2 mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                     <div class="sm:col-span-2"><label for="address" class="mb-1 block text-sm font-medium">Complete address </label><input id="address" name="address" type="text" value="{{ old('address', $draft['address'] ?? '') }}" placeholder="Enter complete address" autocomplete="street-address" maxlength="255" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('address')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
-                    <div><label for="phone" class="mb-1 block text-sm font-medium">Phone number </label><input id="phone" name="phone" type="tel" value="{{ old('phone', $draft['phone'] ?? '') }}" placeholder="Enter phone number" autocomplete="tel" maxlength="40" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('phone')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
-                    <div><label for="email" class="mb-1 block text-sm font-medium">Email (optional)</label><input id="email" name="email" type="email" value="{{ old('email', $draft['email'] ?? '') }}" placeholder="Enter email address" autocomplete="email" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="phone" class="mb-1 block text-sm font-medium">Phone number</label><input id="phone" name="phone" type="tel" inputmode="numeric" value="{{ old('phone', $draft['phone'] ?? '') }}" placeholder="09123456789" autocomplete="tel" maxlength="11" pattern="[0-9]{11}" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('phone')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                    <div><label for="email" class="mb-1 block text-sm font-medium">Gmail address (optional)</label><input id="email" name="email" type="email" value="{{ old('email', $draft['email'] ?? '') }}" placeholder="name@gmail.com" pattern=".+@gmail\.com" autocomplete="email" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
                     <div><label for="date_of_birth" class="mb-1 block text-sm font-medium">Date of birth </label><input id="date_of_birth" name="date_of_birth" type="date" value="{{ old('date_of_birth', $draft['date_of_birth'] ?? '') }}" class="w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600">@error('date_of_birth')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
                     <div><label for="id_type" class="mb-1 block text-sm font-medium">Valid ID type </label><select id="id_type" name="id_type"><option value="">Select ID type</option>@foreach (['PhilID', 'Passport', 'Driver License', 'UMID', 'PRC ID', 'Postal ID', 'Voter ID', 'Other'] as $idType)<option value="{{ $idType }}" @selected(old('id_type', $draft['id_type'] ?? '') === $idType)>{{ $idType }}</option>@endforeach</select>@error('id_type')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
                     <div><label for="id_number" class="mb-1 block text-sm font-medium">Valid ID number </label><input id="id_number" name="id_number" type="text" maxlength="100" value="{{ old('id_number', $draft['id_number'] ?? '') }}" placeholder="Enter ID number" class="w-full rounded-lg border-gray-300 placeholder:text-gray-400 focus:border-green-600 focus:ring-green-600">@error('id_number')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
@@ -217,6 +223,23 @@
 <script>
 (function () {
     const $ = id => document.getElementById(id);
+    const nameInputs = ['first_name', 'middle_name', 'last_name'].map($);
+    nameInputs.forEach(input => input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^\p{L} '\-]/gu, '');
+        $('full_name').value = [
+            $('first_name').value.trim(), $('middle_name').value.trim(),
+            $('last_name').value.trim(), $('suffix').value,
+        ].filter(Boolean).join(' ');
+    }));
+    $('suffix').addEventListener('change', () => {
+        $('full_name').value = [$('first_name').value.trim(), $('middle_name').value.trim(), $('last_name').value.trim(), $('suffix').value].filter(Boolean).join(' ');
+    });
+    $('loanForm').addEventListener('submit', () => {
+        $('full_name').value = [$('first_name').value.trim(), $('middle_name').value.trim(), $('last_name').value.trim(), $('suffix').value].filter(Boolean).join(' ');
+    });
+    $('phone').addEventListener('input', event => {
+        event.target.value = event.target.value.replace(/\D/g, '').slice(0, 11);
+    });
     const loanTabs = Array.from(document.querySelectorAll('[data-loan-tab]'));
     const loanPanels = Array.from(document.querySelectorAll('[data-loan-tab-panel]'));
     const loanTabsNav = $('loanTabs');

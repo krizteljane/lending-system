@@ -470,11 +470,23 @@ class LoanController extends Controller
 
     private function validateLoanData(array $input): array
     {
+        $nameParts = array_filter([
+            trim($input['first_name'] ?? ''),
+            trim($input['middle_name'] ?? ''),
+            trim($input['last_name'] ?? ''),
+            trim($input['suffix'] ?? ''),
+        ], fn ($part) => $part !== '');
+        $input['full_name'] = implode(' ', $nameParts);
+
         $data = Validator::make($input, [
             'full_name' => ['required', 'string', 'max:150'],
+            'first_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'middle_name' => ['nullable', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'last_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
+            'suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:40'],
-            'email' => ['nullable', 'email', 'max:150'],
+            'phone' => ['required', 'regex:/^[0-9]{11}$/'],
+            'email' => ['nullable', 'email', 'regex:/@gmail\.com$/i', 'max:150'],
             'date_of_birth' => ['required', 'date', 'before:today'],
             'id_type' => ['required', 'in:PhilID,Passport,Driver License,UMID,PRC ID,Postal ID,Voter ID,Other'],
             'id_number' => ['required', 'string', 'max:100'],
