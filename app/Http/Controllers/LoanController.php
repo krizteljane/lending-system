@@ -495,15 +495,10 @@ class LoanController extends Controller
 
     private function validateLoanData(array $input): array
     {
-        $middleName = trim($input['middle_name'] ?? '');
-        if (strcasecmp($middleName, 'N/A') === 0) {
-            $input['middle_name'] = null;
-        }
         foreach (['co_borrower', 'second_co_borrower'] as $prefix) {
             $middleName = trim($input[$prefix.'_middle_name'] ?? '');
             if (strcasecmp($middleName, 'N/A') === 0) {
                 $middleName = '';
-                $input[$prefix.'_middle_name'] = null;
             }
             $parts = array_filter([
                 trim($input[$prefix.'_first_name'] ?? ''),
@@ -521,7 +516,7 @@ class LoanController extends Controller
 
         $nameParts = array_filter([
             trim($input['first_name'] ?? ''),
-            trim($input['middle_name'] ?? ''),
+            strcasecmp(trim($input['middle_name'] ?? ''), 'N/A') === 0 ? '' : trim($input['middle_name'] ?? ''),
             trim($input['last_name'] ?? ''),
             trim($input['suffix'] ?? ''),
         ], fn ($part) => $part !== '');
@@ -530,7 +525,7 @@ class LoanController extends Controller
         $data = Validator::make($input, [
             'full_name' => ['required', 'string', 'max:150'],
             'first_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
-            'middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
+            'middle_name' => ['required', 'string', 'max:60', 'regex:/^(?:N\/A|[\pL]+(?:[ \x{27}\-][\pL]+)*)$/iu'],
             'last_name' => ['required', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
             'suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'address' => ['required', 'string', 'max:255'],
@@ -543,7 +538,7 @@ class LoanController extends Controller
             'id_file_path' => ['nullable', 'string', 'max:255'],
             'co_borrower_name' => ['nullable', 'string', 'max:150'],
             'co_borrower_first_name' => ['required_if:co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
-            'co_borrower_middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
+            'co_borrower_middle_name' => ['required_if:co_borrower_enabled,1', 'string', 'max:60', 'regex:/^(?:N\/A|[\pL]+(?:[ \x{27}\-][\pL]+)*)$/iu'],
             'co_borrower_last_name' => ['required_if:co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
             'co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'co_borrower_enabled' => ['nullable', 'in:1'],
@@ -557,7 +552,7 @@ class LoanController extends Controller
             'co_borrower_id_file_path' => ['nullable', 'string', 'max:255'],
             'second_co_borrower_name' => ['nullable', 'string', 'max:150'],
             'second_co_borrower_first_name' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
-            'second_co_borrower_middle_name' => ['nullable', 'string', 'max:60', 'regex:/^(?:[\pL]+(?:[ \x{27}\-][\pL]+)*)?$/u'],
+            'second_co_borrower_middle_name' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:60', 'regex:/^(?:N\/A|[\pL]+(?:[ \x{27}\-][\pL]+)*)$/iu'],
             'second_co_borrower_last_name' => ['required_if:second_co_borrower_enabled,1', 'string', 'max:60', 'regex:/^[\pL]+(?:[ \x{27}\-][\pL]+)*$/u'],
             'second_co_borrower_suffix' => ['nullable', 'in:Jr.,Sr.,II,III,IV,V'],
             'second_co_borrower_enabled' => ['nullable', 'in:1'],
